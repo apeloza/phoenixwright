@@ -7,7 +7,7 @@ router.get('/characters/', function(req, res) {
 res.send(characters);
 });
 
-router.get('/scene/', function(req, res) {
+router.get('/scenes/', function(req, res) {
 res.send(scenes);
 });
 
