@@ -1,0 +1,47 @@
+{
+  "witnessOne": {
+    "name": "Ruby",
+    "defaultSound": "blipfemale",
+    "defaultText": "speech",
+    "emotions": {
+      "default": {
+        "talking": "ruby/ruby_neutral_talking",
+        "finished": "ruby/ruby_neutral"
+      },
+      "sweating": {
+        "talking": "ruby/ruby_sweating_talking",
+        "finished": "ruby/ruby_sweating"
+      }
+    }
+  },
+  "detective": {
+    "name": "Linter",
+    "defaultSound": "blipmale",
+    "defaultText": "speech",
+    "emotions": {
+      "default": {
+        "talking":"isaac/isaac_neutral_talking",
+        "finished": "isaac/isaac_neutral"
+      },
+      "mad": {
+        "talking":"isaac/isaac_mad_talking",
+        "finished": "isaac/isaac_mad"
+      }
+      }
+    },
+    "defense": {
+      "name": "Perl",
+      "defaultSound": "blipfemale",
+      "defaultText": "speech",
+      "emotions": {
+        "default": {
+          "talking":"dawn/dawn_neutral_speaking",
+          "finished":"dawn/dawn_neutral"
+        },
+        "confident": {
+          "talking":"dawn/dawn_confident_speaking",
+          "finished":"dawn/dawn_confident"
+        }
+      }
+    }
+  }
