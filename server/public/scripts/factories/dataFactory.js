@@ -28,7 +28,9 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
     function getScene(name) {
         return scenes[name];
     }
-
+function scenesArray() {
+  return scenes;
+}
     function initialize() {
         var promises = [getChars(), getScenes()];
         return $q.all(promises);
@@ -50,7 +52,8 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
 
         getCharacter: getChar,
         getScene: getScene,
-        initialize: initialize
+        initialize: initialize,
+        scenesArray: scenesArray
 
     };
     return publicApi;

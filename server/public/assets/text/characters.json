@@ -26,6 +26,10 @@
       "mad": {
         "talking":"isaac/isaac_mad_talking",
         "finished": "isaac/isaac_mad"
+      },
+      "proud": {
+        "talking":"isaac/isaac_proud_talking",
+        "finished":"isaac/isaac_proud"
       }
       }
     },

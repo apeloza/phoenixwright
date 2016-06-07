@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../assets/styles/main.css" media="screen" title="no title" charset="utf-8">
     <script src="../assets/vendors/angular.min.js"></script>
     <script src="../assets/vendors/angular-route.min.js"></script>
+    <script src="../assets/vendors/angular.audio.js"></script>
     <script src="../scripts/clientapp.js"></script>
     <script src="../scripts/factories/dataFactory.js"></script>
     <script src="../scripts/controllers/gameController.js"></script>
@@ -15,30 +16,31 @@
 
 <body ng-controller="GameController">
     <div class="container">
-        <button class="evidencebtn" id="openev">Evidence</button>
-        <div class="well well-lg gamecontainer">
-            <div class="evidencebox hidden">
-                <button class="evidencebtn" id="check">Check</button>
+        <button class="evidencebtn" id="openev" ng-click="openEvidence()">Evidence</button>
+        <div class="well well-lg gamecontainer" ng-style="background">
+            <div class="evidencebox" ng-show="evidencePanel">
+                <button class="evidencebtn" id="check" ng-click="examineEvidence()">Check</button>
                 <button class="evidencebtn hidden" id="present">Present</button>
-                <button class="close">Close Evidence</button>
-                <img class="evidence" id="badge" src="../assets/evidence/lawyerbadge.png" />
+                <button class="close" ng-click="closeEvidence()">Close Evidence</button>
+                <img class="evidence" id="badge" src="../assets/evidence/lawyerbadge.png" ng-click="setActiveEvidence()" />
                 <img class="evidence" id="autopsyreport" src="../assets/evidence/autopsyreport.png" />
             </div>
             <div class="namebox">
-
+                {{charName}}
             </div>
-            <button id="press" class="press evidencebtn">Press</button>
-            <div class="textbox" ng-click="advanceText()">
-                <p ng-bind="displayLine"></p>
-                <img class="pointer" src="../assets/interfaceimages/pointer.gif" />
+            <button id="press" class="press evidencebtn" ng-click="pressWitness()" ng-show="isTestimony">Press</button>
+            <div class="textbox" ng-style="texttype">
+                <p ng-bind="displayLine" ></p>
+                <img class="pointer" src="../assets/interfaceimages/pointer.gif" ng-click="advanceText()" />
             </div>
 
-            <img class="portrait" ng-src="../assets/sprites/{{currChar.emotions[emotion].finished}}.gif" />
+            <img class="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}.gif" ng-hide="evidencePanel" />
             <img class="overlay hidden" />
-            <img class="defensebench hidden" src="../assets/sprites/benches/defensebench.gif" />
-            <img class="prosecutionbench hidden" src="../assets/sprites/benches/prosecutionbench.gif" />
-            <img class="witness_stand hidden" src="../assets/sprites/benches/witnessstand.gif" />
+            <img class="defensebench" src="../assets/sprites/benches/defensebench.gif" ng-show="isDefense" />
+            <img class="prosecutionbench" src="../assets/sprites/benches/prosecutionbench.gif" ng-show="isProsecutor" />
+            <img class="witness_stand" src="../assets/sprites/benches/witnessstand.gif" ng-show="isWitness" />
             <audio id="gamemusic" loop>
+                <source ng-src="{{musicsrc}}" />
             </audio>
         </div>
     </div>
