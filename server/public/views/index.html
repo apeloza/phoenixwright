@@ -20,21 +20,22 @@
         <div class="well well-lg gamecontainer" ng-style="background">
             <div class="evidencebox" ng-show="evidencePanel">
                 <button class="evidencebtn" id="check" ng-click="examineEvidence()">Check</button>
-                <button class="evidencebtn hidden" id="present">Present</button>
+                <button class="evidencebtn" id="present" ng-click="presentEvidence(currEvidence)" ng-show="isExamination">Present</button>
                 <button class="close" ng-click="closeEvidence()">Close Evidence</button>
-                <img class="evidence" id="badge" src="../assets/evidence/lawyerbadge.png" ng-click="setActiveEvidence()" />
-                <img class="evidence" id="autopsyreport" src="../assets/evidence/autopsyreport.png" />
+                <img class="evidence" id="badge" src="../assets/evidence/lawyerbadge.png" ng-click="setActiveEvidence('badge')"  />
+                <img class="evidence" id="autopsyreport" src="../assets/evidence/autopsyreport.png" ng-click="setActiveEvidence('autopsyreport')" />
             </div>
             <div class="namebox">
                 {{charName}}
             </div>
-            <button id="press" class="press evidencebtn" ng-click="pressWitness()" ng-show="isTestimony">Press</button>
+            <button id="press" class="press evidencebtn" ng-click="pressWitness()" ng-show="isExamination">Press</button>
             <div class="textbox" ng-style="texttype">
                 <p ng-bind="displayLine" ></p>
                 <img class="pointer" src="../assets/interfaceimages/pointer.gif" ng-click="advanceText()" />
+                <img class="pointer-prev" src="../assets/interfaceimages/pointer.gif" ng-click="prevText()" ng-show="isExamination" />
             </div>
 
-            <img class="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}.gif" ng-hide="evidencePanel" />
+            <img class="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}" ng-hide="evidencePanel" />
             <img class="overlay hidden" />
             <img class="defensebench" src="../assets/sprites/benches/defensebench.gif" ng-show="isDefense" />
             <img class="prosecutionbench" src="../assets/sprites/benches/prosecutionbench.gif" ng-show="isProsecutor" />

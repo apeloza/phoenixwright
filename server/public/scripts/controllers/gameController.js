@@ -1,30 +1,24 @@
 app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'DataFactory', function($scope, $http, $timeout, ngAudio, DataFactory) {
     var sceneCounter = 0;
     var blip;
-
+var nextIndex;
+var currIndex;
     //This function handles advancing to the next line of text, and swapping variables as needed.
     $scope.advanceText = function() {
-        var currIndex = $scope.lines.indexOf($scope.line) || 0;
-        var nextIndex = currIndex + 1;
-        if (nextIndex == $scope.lines.length && $scope.isPress === true) {
-            $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
-            $scope.lines = $scope.currScene.lines;
-            nextIndex = $scope.pressLoc;
-            console.log(nextIndex);
-            $scope.isPress = false;
-        } else if (nextIndex == $scope.lines.length && $scope.isTestimony === true) {
-            nextIndex = 0;
-        } else if (nextIndex == $scope.lines.length) {
-            sceneCounter++;
-            $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
-            $scope.lines = $scope.currScene.lines;
-            nextIndex = 0;
-        }
+        currIndex = $scope.lines.indexOf($scope.line) || 0;
+        nextIndex = currIndex + 1;
+        checkScene();
         $scope.line = $scope.lines[nextIndex];
         checkCharacter();
         checkBackground();
         checkMusic();
         checkTextType();
+        if ($scope.line.testimonyStart){
+          startTestimony();
+        }
+        if ($scope.line.examinationStart){
+          startExamination();
+        }
         $scope.displayLine = '';
         $scope.talking = true;
         $scope.isTalking = 'talking';
@@ -33,6 +27,54 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         $scope.typeText();
     };
 
+//This function handles going backwards, and is only functional during testimonies.
+$scope.prevText = function(){
+
+  //This makes sure you're not trying to go backwards from the first line.
+  console.log(currIndex);
+  if(currIndex === -1){
+    return;
+  }
+  currIndex = $scope.lines.indexOf($scope.line) || 0;
+  nextIndex = currIndex - 1;
+  checkScene();
+  $scope.line = $scope.lines[nextIndex];
+  checkCharacter();
+  checkBackground();
+  checkMusic();
+  checkTextType();
+  if ($scope.line.testimonyStart){
+    startTestimony();
+  }
+  if ($scope.line.examinationStart){
+    startExamination();
+  }
+  $scope.displayLine = '';
+  $scope.talking = true;
+  $scope.isTalking = 'talking';
+
+  blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
+  $scope.typeText();
+};
+
+//Governs behaviour regarding what is displayed 'next' in the textbox, should a series of lines end.
+function checkScene() {
+  if (nextIndex == $scope.lines.length && $scope.isPress === true || nextIndex == $scope.lines.length && $scope.incorrect === true) {
+      $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
+      $scope.lines = $scope.currScene.lines;
+      nextIndex = $scope.pressLoc;
+      console.log(nextIndex);
+      $scope.isPress = false;
+      $scope.isExamination = true;
+  } else if (nextIndex == $scope.lines.length && $scope.isExamination === true) {
+      nextIndex = 0;
+  } else if (nextIndex == $scope.lines.length) {
+      sceneCounter++;
+      $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
+      $scope.lines = $scope.currScene.lines;
+      nextIndex = 0;
+  }
+}
     //Checks to see what bench sprites might need to be displayed on the screen, based on the background.
     function checkBenches() {
         if ($scope.line.background == 'defenseempty') {
@@ -60,6 +102,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         if ($scope.line.music) {
             $scope.music.pause();
             $scope.music = ngAudio.load("../assets/audio/bgm/" + $scope.line.music + ".mp3");
+            $scope.music.loop = true;
+            $scope.music.volume = 0.5;
             $scope.music.play();
         }
     }
@@ -89,11 +133,11 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     }
     //Checks to see if the text color should be changed. Testimonies have special properties that are also enabled this way.
     function checkTextType() {
-        if ($scope.line.type == 'testimony') {
+        if ($scope.line.type == 'examination') {
             $scope.texttype = {
                 'color': 'green'
             };
-            $scope.isTestimony = true;
+            $scope.isExamination = true;
         } else if ($scope.line.type == 'thought') {
             $scope.texttype = {
                 'color': 'dodgerblue'
@@ -119,25 +163,66 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     $scope.openEvidence = function() {
         $scope.evidencePanel = true;
     };
+function startTestimony(){
+  console.log('testimony started');
+}
+function startExamination(){
+  console.log('examination started');
+}
+    //The evidence window is hidden, and the text is re-set to where the player left off.
     $scope.closeEvidence = function() {
         $scope.evidencePanel = false;
+        $scope.displayLine = $scope.lines[$scope.evidenceLoc].line;
+        checkTextType();
     };
+
+    //The evidence's extra information is displayed.
     $scope.examineEvidence = function() {
+        $scope.displayLine = $scope.currEvidence.info;
 
     };
-    $scope.setActiveEvidence = function() {
 
+    //The clicked evidence is set as the active piece of evidence.
+    $scope.setActiveEvidence = function(evName) {
+        $scope.evidenceLoc = $scope.lines.indexOf($scope.line);
+        $scope.currEvidence = DataFactory.getEvidenceItem(evName);
+        $scope.displayLine = $scope.currEvidence.description;
+        $scope.texttype = {
+            'color': 'white'
+        };
     };
+
+    //Handles objections when pressing the 'Present' button
+$scope.presentEvidence = function(evName) {
+  var objection = ngAudio.load("../assets/audio/sfx/dawnobjection.wav");
+  objection.play();
+  if($scope.line.correctevidence == $scope.currEvidence.id){
+    $scope.incorrect = false;
+    $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].correctlines;
+    $scope.lines = $scope.currScene.lines;
+    $scope.closeEvidence();
+    $scope.isExamination = false;
+    $scope.advanceText();
+  } else {
+    $scope.pressLoc = $scope.lines.indexOf($scope.line);
+    $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].incorrectlines;
+    $scope.lines = $scope.currScene.lines;
+    $scope.closeEvidence();
+    $scope.incorrect = true;
+    $scope.isExamination = false;
+    $scope.advanceText();
+  }
+};
+
     //Alters variables when the 'Press' button is clicked such that the textbox starts displaying the presstext.
     $scope.pressWitness = function() {
-        console.log("Pressed witness");
-        console.log($scope.currScene);
+        var holdIt = ngAudio.load("../assets/audio/sfx/dawnholdit.wav");
+        holdIt.play();
         $scope.pressLoc = $scope.lines.indexOf($scope.line);
-        console.log($scope.pressLoc);
         $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].presstext;
         $scope.lines = $scope.currScene.lines;
         $scope.isPress = true;
-
+        $scope.isExamination = false;
         $scope.advanceText();
     };
 
@@ -145,7 +230,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     DataFactory.initialize().then(function() {
         $scope.scenes = ['opening', 'courtroom', 'testimonyone'];
         $scope.music = ngAudio.load("../assets/audio/bgm/courtroomlobby.mp3");
-        $scope.music.loop = true;
         $scope.music.play();
         $scope.currChar = DataFactory.getCharacter('detective');
         $scope.currScene = DataFactory.getScene('opening');

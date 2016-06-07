@@ -3,7 +3,8 @@
     "name":"Attorney's Badge",
     "description":"My attorney's badge. Proof that I can practice law.",
     "image":"../assets/evidence/lawyerbadge.gif",
-    "info":"Looking great. I shined it this morning."
+    "info":"Looking great. I shined it this morning.",
+    "id":"badge"
   },
   "autopsyreport":{
     "name":"Autopsy Report",

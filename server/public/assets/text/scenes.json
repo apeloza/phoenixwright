@@ -3,10 +3,12 @@
 
         "lines": [{
             "line": "This is the first line of my testimony.",
+            "correctevidence": "badge",
             "background": "witnessempty",
             "character": "detective",
             "music": "xmoderate",
-            "type": "testimony",
+            "type": "examination",
+            "examinationStart": "true",
             "presstext": {
                 "lines": [{
 
@@ -18,6 +20,20 @@
                     "emotion": "confident",
                     "background": "defenseempty"
 
+                }]
+            },
+            "correctlines": {
+                "lines": [{
+                    "line": "here comes dat boi"
+                }, {
+                    "line": "oh shit waddup"
+                }]
+            },
+            "incorrectlines": {
+                "lines": [{
+                    "line": "tfw not dat boi"
+                }, {
+                    "line": "v a p o r w a v e"
                 }]
             }
         }, {
@@ -58,7 +74,7 @@
         }, {
             "line": "This is the fifth line. We are back at the defense.",
             "character": "defense",
-            "emotion":"default",
+            "emotion": "default",
             "background": "defenseempty"
         }]
 

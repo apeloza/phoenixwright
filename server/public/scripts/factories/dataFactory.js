@@ -13,6 +13,7 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
         });
         return promise;
     }
+
     function getScenes() {
         var promise = $http.get('/game/scenes').then(function(response) {
             console.log('Async data returned: ', response.data);
@@ -28,11 +29,17 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
     function getScene(name) {
         return scenes[name];
     }
-function scenesArray() {
-  return scenes;
-}
+
+    function scenesArray() {
+        return scenes;
+    }
+
+    function getEvidenceItem(name) {
+        return evidence[name];
+    }
+
     function initialize() {
-        var promises = [getChars(), getScenes()];
+        var promises = [getChars(), getScenes(), getEvidence()];
         return $q.all(promises);
     }
 
@@ -52,6 +59,7 @@ function scenesArray() {
 
         getCharacter: getChar,
         getScene: getScene,
+        getEvidenceItem: getEvidenceItem,
         initialize: initialize,
         scenesArray: scenesArray
 
