@@ -8,6 +8,7 @@
     <script src="../assets/vendors/angular.min.js"></script>
     <script src="../assets/vendors/angular-route.min.js"></script>
     <script src="../scripts/clientapp.js"></script>
+    <script src="../scripts/factories/dataFactory.js"></script>
     <script src="../scripts/controllers/gameController.js"></script>
   </head>
   <body ng-controller="GameController">
@@ -30,7 +31,7 @@
 <img class="pointer" src="../assets/interfaceimages/pointer.gif" />
         </div>
 
-<img class="portrait" ng-src="../assets/sprites/{{character.emotions[emotion].finished}}.gif" />
+<img class="portrait" ng-src="../assets/sprites/{{currChar.emotions[emotion].finished}}.gif" />
 <img class="overlay hidden" />
 <img class="defensebench hidden" src="../assets/sprites/benches/defensebench.gif" />
 <img class="prosecutionbench hidden" src="../assets/sprites/benches/prosecutionbench.gif" />

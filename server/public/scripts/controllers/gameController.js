@@ -1,4 +1,4 @@
-app.controller('GameController', ['$scope', '$http', function($scope, $http) {
+app.controller('GameController', ['$scope', '$http', 'DataFactory', function($scope, $http, DataFactory) {
 console.log("Controller running");
 $scope.character = {
   "name": "Linter",
@@ -15,5 +15,16 @@ $scope.character = {
     }
 
   }};
-  $scope.emotion = "mad";
+  $scope.emotion = "sweating";
+  $scope.dataFactory = DataFactory;
+  if($scope.dataFactory.returnCharacters() === undefined) {
+    $scope.dataFactory.getCharacters().then(function() {
+      $scope.currChar = $scope.dataFactory.getCharacter('witnessOne');
+      console.log($scope.currChar);
+
+
+    });
+  } else {
+    $scope.characters = $scope.dataFactory.getCharacters();
+  }
 }]);
