@@ -13,7 +13,7 @@
             "examinationStart": "true",
             "presstext": {
                 "lines": [{
-
+                    "type": "default",
                     "line": "You've done it now pal!",
                     "emotion": "mad"
                 }, {
@@ -25,7 +25,7 @@
                 }, {
                     "line": "Autopsy report added to the court record.",
                     "show": "0",
-                    "showBox": "../assets/evidence/autopsyreport.png",
+                    "showBox": "autopsyreport.png",
                     "talking": "default",
                     "sfx": "selectjingle.wav",
                     "blip": "typewriter.wav"
@@ -46,6 +46,7 @@
             "correctevidence": "autopsyreport",
             "presstext": {
                 "lines": [{
+                    "type": "default",
                     "line": "What, you think I'm wrong?",
                     "emotion": "proud"
                 }, {
@@ -73,15 +74,16 @@
                     "line": "It's impossible that Bracket was killed with a teacup!"
                 }, {
                     "line": "I--impossible?",
-                    "character": "detective",
-                    "emotion": "confused",
-                    "background": "witnessempty"
+                    "character": "prosecutor",
+                    "emotion": "sweating",
+                    "background": "prosecutorempty",
+                    "sfx": "stab.wav"
                 }, {
                     "line": "Look at this autopsy report.",
                     "character": "defense",
                     "emotion": "leaning",
                     "background": "defenseempty",
-                    "showBox": "autopsyreport"
+                    "showBox": "autopsyreport.png"
                 }, {
                     "line": "It says right here that blunt force trauma was ruled out as a cause of death!"
                 }, {

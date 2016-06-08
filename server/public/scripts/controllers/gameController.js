@@ -79,7 +79,6 @@ function checkSFX(){
     var sfx = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.sfx);
 sfx.play();
   }
-  debugger;
   if($scope.line.blip){
     blip = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.blip);
   }
@@ -91,7 +90,7 @@ function checkEvidenceBox(){
 
   }
   if($scope.line.showBox){
-    $scope.activesrc = $scope.line.showBox;
+    $scope.activesrc = '../assets/evidence/' + $scope.line.showBox;
     $scope.evidenceBox = true;
   }
 }
