@@ -18,12 +18,13 @@
     <div class="container">
         <button class="evidencebtn" id="openev" ng-click="openEvidence()">Evidence</button>
         <div class="well well-lg gamecontainer" ng-style="background">
+          <img class="evidence evidencedisplay" ng-src="{{activesrc}}" ng-show="evidenceBox" />
             <div class="evidencebox" ng-show="evidencePanel">
                 <button class="evidencebtn" id="check" ng-click="examineEvidence()">Check</button>
                 <button class="evidencebtn" id="present" ng-click="presentEvidence(currEvidence)" ng-show="isExamination">Present</button>
                 <button class="close" ng-click="closeEvidence()">Close Evidence</button>
                 <img class="evidence" id="badge" src="../assets/evidence/lawyerbadge.png" ng-click="setActiveEvidence('badge')"  />
-                <img class="evidence" id="autopsyreport" src="../assets/evidence/autopsyreport.png" ng-click="setActiveEvidence('autopsyreport')" />
+                <img class="evidence" id="autopsyreport" src="../assets/evidence/autopsyreport.png" ng-show="hiddenEvidence[0]" ng-click="setActiveEvidence('autopsyreport')" />
             </div>
             <div class="namebox">
                 {{charName}}

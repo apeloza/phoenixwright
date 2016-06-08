@@ -13,6 +13,8 @@ var currIndex;
         checkBackground();
         checkMusic();
         checkTextType();
+        checkNewEvidence();
+        checkEvidenceBox();
         if ($scope.line.testimonyStart){
           startTestimony();
         }
@@ -22,16 +24,17 @@ var currIndex;
         $scope.displayLine = '';
         $scope.talking = true;
         $scope.isTalking = 'talking';
-
+        checkTalking();
         blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
+        debugger;
+        checkSFX();
         $scope.typeText();
     };
 
 //This function handles going backwards, and is only functional during testimonies.
 $scope.prevText = function(){
 
-  //This makes sure you're not trying to go backwards from the first line.
-  console.log(currIndex);
+  //This if statement makes sure you're not trying to go backwards from the first line.
   if(currIndex === -1){
     return;
   }
@@ -57,6 +60,41 @@ $scope.prevText = function(){
   $scope.typeText();
 };
 
+//Manual over-ride for lines of text that have no one speaking.
+function checkTalking(){
+  if($scope.line.talking){
+    $scope.isTalking = 'finished';
+  }
+}
+//Adds evidence to the court record if the JSON file requests it.
+function checkNewEvidence(){
+  if($scope.line.show){
+     $scope.hiddenEvidence[$scope.line.show]= true;
+  }
+}
+
+//Checks to see if any SFX or manual over-ride blip noises need to be played.
+function checkSFX(){
+  if($scope.line.sfx){
+    var sfx = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.sfx);
+sfx.play();
+  }
+  debugger;
+  if($scope.line.blip){
+    blip = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.blip);
+  }
+}
+//Checks to see if the particular line wants to display an evidence box in the top left.
+function checkEvidenceBox(){
+  if($scope.line.hideBox){
+    $scope.evidenceBox = false;
+
+  }
+  if($scope.line.showBox){
+    $scope.activesrc = $scope.line.showBox;
+    $scope.evidenceBox = true;
+  }
+}
 //Governs behaviour regarding what is displayed 'next' in the textbox, should a series of lines end.
 function checkScene() {
   if (nextIndex == $scope.lines.length && $scope.isPress === true || nextIndex == $scope.lines.length && $scope.incorrect === true) {
@@ -162,6 +200,7 @@ function checkScene() {
     };
     $scope.openEvidence = function() {
         $scope.evidencePanel = true;
+        $scope.evidenceLoc = $scope.lines.indexOf($scope.line);
     };
 function startTestimony(){
   console.log('testimony started');
@@ -184,7 +223,6 @@ function startExamination(){
 
     //The clicked evidence is set as the active piece of evidence.
     $scope.setActiveEvidence = function(evName) {
-        $scope.evidenceLoc = $scope.lines.indexOf($scope.line);
         $scope.currEvidence = DataFactory.getEvidenceItem(evName);
         $scope.displayLine = $scope.currEvidence.description;
         $scope.texttype = {
@@ -196,6 +234,8 @@ function startExamination(){
 $scope.presentEvidence = function(evName) {
   var objection = ngAudio.load("../assets/audio/sfx/dawnobjection.wav");
   objection.play();
+  $scope.activesrc = $scope.currEvidence.image;
+  $scope.evidenceBox = true;
   if($scope.line.correctevidence == $scope.currEvidence.id){
     $scope.incorrect = false;
     $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].correctlines;
@@ -244,6 +284,7 @@ $scope.presentEvidence = function(evName) {
         $scope.isDefense = false;
         $scope.isWitness = false;
         $scope.isPress = false;
+        $scope.hiddenEvidence = [false, false, false, false, false];
     });
 
 }]);

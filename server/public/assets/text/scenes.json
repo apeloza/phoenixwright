@@ -3,9 +3,11 @@
 
         "lines": [{
             "line": "This is the first line of my testimony.",
-            "correctevidence": "badge",
+            "correctevidence": "none",
+            "hideBox": "true",
             "background": "witnessempty",
             "character": "detective",
+            "emotion": "default",
             "music": "xmoderate",
             "type": "examination",
             "examinationStart": "true",
@@ -20,33 +22,73 @@
                     "emotion": "confident",
                     "background": "defenseempty"
 
+                }, {
+                    "line": "Autopsy report added to the court record.",
+                    "show": "0",
+                    "showBox": "../assets/evidence/autopsyreport.png",
+                    "talking": "default",
+                    "sfx": "selectjingle.wav",
+                    "blip": "typewriter.wav"
                 }]
             },
-            "correctlines": {
+
+            "incorrectlines": {
                 "lines": [{
-                    "line": "here comes dat boi"
+                    "line": "What the heck is that?"
                 }, {
-                    "line": "oh shit waddup"
+                    "line": "Try again.",
+                    "emotion": "laughing"
+                }]
+            }
+        }, {
+            "line": "This is the second line. I am angry! The victim was killed with a teacup to the head!",
+            "emotion": "mad",
+            "correctevidence": "autopsyreport",
+            "presstext": {
+                "lines": [{
+                    "line": "What, you think I'm wrong?",
+                    "emotion": "proud"
+                }, {
+                    "line": "Then put your money where your mouth is."
+                }, {
+                    "line": "Show me evidence!"
                 }]
             },
             "incorrectlines": {
                 "lines": [{
-                    "line": "tfw not dat boi"
+                    "line": "What the heck is that?"
                 }, {
-                    "line": "v a p o r w a v e"
+                    "line": "Try again.",
+                    "emotion": "laughing"
                 }]
-            }
-        }, {
-            "line": "This is the second line. I am angry!",
-            "emotion": "mad",
-            "presstext": {
+            },
+            "correctlines": {
                 "lines": [{
-                    "line": "This is a different presstext!",
-                    "emotion": "proud"
+                    "line": "Here is your proof!",
+                    "character": "defense",
+                    "emotion": "pointing",
+                    "music": "objection",
+                    "background": "defenseempty"
                 }, {
-                    "line": "And it has several lines as well."
+                    "line": "It's impossible that Bracket was killed with a teacup!"
                 }, {
-                    "line": "After this we should return to the phrase we pressed."
+                    "line": "I--impossible?",
+                    "character": "detective",
+                    "emotion": "confused",
+                    "background": "witnessempty"
+                }, {
+                    "line": "Look at this autopsy report.",
+                    "character": "defense",
+                    "emotion": "leaning",
+                    "background": "defenseempty",
+                    "showBox": "autopsyreport"
+                }, {
+                    "line": "It says right here that blunt force trauma was ruled out as a cause of death!"
+                }, {
+                    "line": "Oooogh ...!",
+                    "character": "detective",
+                    "emotion": "mad",
+                    "background": "witnessempty"
                 }]
             }
         }]
@@ -59,7 +101,8 @@
             "character": "defense",
             "emotion": "confident",
             "music": "trial",
-            "type": "default"
+            "type": "default",
+            "hideBox": "true"
         }, {
             "line": "This is the second line. It had better not show up first."
         }, {
