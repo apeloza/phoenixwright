@@ -1,4 +1,66 @@
 {
+    "tutorial": {
+        "lines": [{
+            "line": "Before we start the case, let's go through a brief tutorial! Click the arrow in the lower right of this box to advance.",
+            "character": "tutorial",
+            "emotion": "default"
+        }, {
+            "line": "Our assistant will be Aesop. Say hello Aesop!"
+        }, {
+            "line": "*bark*",
+            "blip": "dog bark.wav",
+            "character": "aesop",
+            "showBox": "aesop.png",
+            "emotion": "default"
+        },
+      {
+        "line": "In this game, you play the role of a defense attorney trying to get a 'Not Guilty' verdict for their client."
+        },
+      {
+        "line": "Though the case may seem grim, the truth is out there! You have a few weapons at your disposal."
+        },
+      {
+        "line": "The first is the power to 'press'. The press button will appear when you are able to press a witness for more information. Go ahead and try now!",
+        "denyForward": "true",
+        "allowPress": "true",
+        "presstext": {
+          "lines": [{
+            "line": "*bark*",
+            "blip": "dog bark.wav",
+            "type": "default"
+          },
+        {
+          "line": "Great job! I will now introduce your second weapon."
+
+          }]
+        }
+        },
+      {
+        "line": "Your second weapon is evidence. Go ahead and click the 'Evidence' button in the top left, and then click on me. After you are done, go ahead and click the arrow.",
+        "type": "default",
+        "show":"0"
+        },
+      {
+        "line": "To advance in the game, you must show the correct evidence to a statement with the present button."
+        },
+      {
+        "line": "The present button is now enabled in the evidence window. Use it with our Aesop evidence!",
+        "type": "examination",
+        "denyPress": "true",
+        "denyForward": "true",
+        "correctevidence": "aesop",
+        "correctlines": {
+          "lines": [{
+            "line":"Way to go! We're now finished with this tutorial.",
+            "type":"default"
+            },
+          {
+            "line":"Your client is accused of murder. But I'm sure you've got this!"
+            }]
+
+        }
+        }]
+    },
     "opening": {
 
         "lines": [{
@@ -24,7 +86,7 @@
 
                 }, {
                     "line": "Autopsy report added to the court record.",
-                    "show": "0",
+                    "show": "2",
                     "showBox": "autopsyreport.png",
                     "talking": "default",
                     "sfx": "selectjingle.wav",

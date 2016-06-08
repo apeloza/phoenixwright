@@ -7,23 +7,24 @@
     <div class="well well-lg gamecontainer" ng-style="background">
       <img class="evidence evidencedisplay" ng-src="{{activesrc}}" ng-show="evidenceBox" />
         <div class="evidencebox" ng-show="evidencePanel">
-            <button class="evidencebtn" id="check" ng-click="examineEvidence()">Check</button>
-            <button class="evidencebtn" id="present" ng-click="presentEvidence(currEvidence)" ng-show="isExamination">Present</button>
+            <button class="evidencebtn gamebtn" id="check" ng-click="examineEvidence()">Check</button>
+            <button class="evidencebtn gamebtn" id="present" ng-click="presentEvidence(currEvidence)" ng-show="isExamination">Present</button>
             <button class="close" ng-click="closeEvidence()">Close Evidence</button>
-            <img class="evidence" id="badge" src="../assets/evidence/lawyerbadge.png" ng-click="setActiveEvidence('badge')"  />
-            <img class="evidence" id="autopsyreport" src="../assets/evidence/autopsyreport.png" ng-show="hiddenEvidence[0]" ng-click="setActiveEvidence('autopsyreport')" />
+            <img class="evidence" id="aesop" src="../assets/evidence/aesop.png" ng-show="hiddenEvidence[0]" ng-click="setActiveEvidence('aesop')"  />
+            <img class="evidence" id="badge" src="../assets/evidence/lawyerbadge.png" ng-show="hiddenEvidence[1]" ng-click="setActiveEvidence('badge')"  />
+            <img class="evidence" id="autopsyreport" src="../assets/evidence/autopsyreport.png" ng-show="hiddenEvidence[2]" ng-click="setActiveEvidence('autopsyreport')" />
         </div>
         <div class="namebox">
             {{charName}}
         </div>
-        <button id="press" class="press evidencebtn" ng-click="pressWitness()" ng-show="isExamination">Press</button>
+        <button id="press" class="press evidencebtn" ng-click="pressWitness()" ng-show="allowPress">Press</button>
         <div class="textbox" ng-style="texttype">
             <p ng-bind="displayLine" ></p>
-            <img class="pointer" src="../assets/interfaceimages/pointer.gif" ng-click="advanceText()" />
+            <img class="pointer" src="../assets/interfaceimages/pointer.gif" ng-click="advanceText()" ng-show="allowForward" />
             <img class="pointer-prev" src="../assets/interfaceimages/pointer.gif" ng-click="prevText()" ng-show="isExamination" />
         </div>
 
-        <img class="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}" ng-hide="evidencePanel" />
+        <img class="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}"  ng-hide="evidencePanel" />
         <img class="overlay hidden" />
         <img class="defensebench" src="../assets/sprites/benches/defensebench.gif" ng-show="isDefense" />
         <img class="prosecutionbench" src="../assets/sprites/benches/prosecutionbench.gif" ng-show="isProsecutor" />

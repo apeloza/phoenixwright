@@ -200,5 +200,25 @@
           "finished":"prosecutor/prosecutor_thinking.gif"
         }
       }
+    },
+    "aesop": {
+      "name": "Aesop",
+      "defaultSound": "blipfemale",
+      "emotions": {
+        "default": {
+          "talking":"nosprite.png",
+          "finished":"nosprite.png"
+        }
+      }
+
+    },
+    "tutorial": {
+      "defaultSound": "typewriter",
+      "emotions": {
+        "default": {
+          "talking":"nosprite.png",
+          "finished":"nosprite.png"
+        }
+      }
     }
-  }
+    }

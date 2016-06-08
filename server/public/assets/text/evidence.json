@@ -12,5 +12,12 @@
     "image":"../assets/evidence/autopsyreport.png",
     "info":"The victim died at precisely 2:00am Monday morning. The cause of death is unclear. There are no signs of blunt force trauma.",
     "id": "autopsyreport"
+  },
+  "aesop":{
+    "name":"Aesop",
+    "description":"The world's best corgi. Click on check for more information!",
+    "image":"../assets/evidence/aesop.png",
+    "info":"When you click on check, more detailed information appears. You can now close this window!",
+    "id": "aesop"
   }
 }
