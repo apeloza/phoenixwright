@@ -104,7 +104,11 @@
             }
         }, {
             "line": "This is the second line. I am angry! The victim was killed with a teacup to the head!",
+            "character": "detective",
             "emotion": "mad",
+            "background": "witnessempty",
+            "type": "examination",
+            "hideBox": "true",
             "correctevidence": "autopsyreport",
             "presstext": {
                 "lines": [{

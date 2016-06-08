@@ -212,11 +212,11 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
 
     //Mostly used in the tutorial, allows for manual suppression of the forwards arrow.
     function checkForward() {
-      if($scope.line.denyForward){
-        $scope.allowForward = false;
-      } else {
-        $scope.allowForward = true;
-      }
+        if ($scope.line.denyForward) {
+            $scope.allowForward = false;
+        } else {
+            $scope.allowForward = true;
+        }
     }
     //'Types' out text onto the DOM.
     $scope.typeText = function() {
@@ -224,7 +224,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             var index = $scope.displayLine.length;
             blip.play();
             $scope.displayLine += $scope.line.line[index];
-            $timeout($scope.typeText, 30);
+            $timeout($scope.typeText, 20);
         } else {
             $scope.talking = false;
             $scope.isTalking = 'finished';
@@ -238,6 +238,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         $scope.isDefense = false;
         $scope.isWitness = false;
         $scope.wasEvidence = false;
+        $scope.allowForward = false;
         if ($scope.evidenceBox === true) {
             $scope.wasEvidence = true;
             $scope.evidenceBox = false;
@@ -260,6 +261,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         $scope.displayLine = $scope.lines[$scope.evidenceLoc].line;
         checkTextType();
         checkBenches();
+        checkForward();
         if ($scope.wasEvidence === true) {
             $scope.evidenceBox = true;
             $scope.wasEvidence = false;
@@ -273,6 +275,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     $scope.examineEvidence = function() {
         $scope.displayLine = $scope.currEvidence.info;
         open.play();
+        $scope.charName = $scope.currEvidence.name;
     };
 
     //Prepares the case to go back to the title by turning off anything that's currently active.
@@ -291,7 +294,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
 
     //Handles objections when pressing the 'Present' button
     $scope.presentEvidence = function(evName) {
-      debugger;
+        debugger;
         objection.play();
         $scope.activesrc = $scope.currEvidence.image;
         $scope.evidenceBox = true;
@@ -318,7 +321,14 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     $scope.pressWitness = function() {
         var holdIt = ngAudio.load("../assets/audio/sfx/defenseholdit.wav");
         holdIt.play();
-        $scope.pressLoc = $scope.lines.indexOf($scope.line) + 1;
+console.log($scope.lines.indexOf($scope.line));
+console.log($scope.lines.length);
+        if ($scope.lines.indexOf($scope.line) + 1  == $scope.lines.length) {
+            $scope.pressLoc = 0;
+        } else {
+            $scope.pressLoc = $scope.lines.indexOf($scope.line) + 1;
+
+        }
         $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].presstext;
         $scope.lines = $scope.currScene.lines;
         $scope.isPress = true;
