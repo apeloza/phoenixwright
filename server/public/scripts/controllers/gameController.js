@@ -26,7 +26,6 @@ var currIndex;
         $scope.isTalking = 'talking';
         checkTalking();
         blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
-        debugger;
         checkSFX();
         $scope.typeText();
     };
@@ -220,6 +219,10 @@ function startExamination(){
 
     };
 
+    //Prepares the case to go back to the title by turning off anything that's currently active.
+$scope.toTitle = function() {
+  $scope.music.stop();
+};
     //The clicked evidence is set as the active piece of evidence.
     $scope.setActiveEvidence = function(evName) {
         $scope.currEvidence = DataFactory.getEvidenceItem(evName);
@@ -231,7 +234,7 @@ function startExamination(){
 
     //Handles objections when pressing the 'Present' button
 $scope.presentEvidence = function(evName) {
-  var objection = ngAudio.load("../assets/audio/sfx/dawnobjection.wav");
+  var objection = ngAudio.load("../assets/audio/sfx/defenseobjection.wav");
   objection.play();
   $scope.activesrc = $scope.currEvidence.image;
   $scope.evidenceBox = true;
@@ -255,7 +258,7 @@ $scope.presentEvidence = function(evName) {
 
     //Alters variables when the 'Press' button is clicked such that the textbox starts displaying the presstext.
     $scope.pressWitness = function() {
-        var holdIt = ngAudio.load("../assets/audio/sfx/dawnholdit.wav");
+        var holdIt = ngAudio.load("../assets/audio/sfx/defenseholdit.wav");
         holdIt.play();
         $scope.pressLoc = $scope.lines.indexOf($scope.line);
         $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].presstext;

@@ -1,0 +1,5 @@
+app.controller('TitleController', ['$scope', '$http', '$timeout', 'ngAudio', 'DataFactory', function($scope, $http, $timeout, ngAudio, DataFactory) {
+  $scope.background = {
+      'background-image': 'url(../assets/backgrounds/startbg.png)'
+  };
+}]);
