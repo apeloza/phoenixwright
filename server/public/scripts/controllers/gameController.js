@@ -20,7 +20,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkBackground();
         checkMusic();
         checkTextType();
-        checkNewEvidence();
+        checkEvidenceChange();
         checkEvidenceBox();
         checkPress();
         checkArrows();
@@ -76,9 +76,12 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         }
     }
     //Adds evidence to the court record if the JSON file requests it.
-    function checkNewEvidence() {
-        if ($scope.line.show) {
-            $scope.hiddenEvidence[$scope.line.show] = true;
+    function checkEvidenceChange() {
+        if ($scope.line.showEvidence) {
+            $scope.hiddenEvidence[$scope.line.showEvidence] = true;
+        }
+        if ($scope.line.hideEvidence) {
+          $scope.hiddenEvidence[$scope.line.hideEvidence] = false;
         }
     }
 
@@ -230,7 +233,7 @@ if($scope.line.choices){
         }
     }
 
-    //Mostly used in the tutorial, allows for manual suppression of the forwards arrow.
+    //Mostly used in the tutorial but also used for choices, allows for manual suppression of the forwards arrow.
     function checkArrows() {
         if ($scope.line.denyForward && $scope.line.denyBackward) {
             $scope.allowForward = false;
@@ -335,6 +338,8 @@ if($scope.line.choices){
             $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].correctlines;
             $scope.lines = $scope.currScene.lines;
             $scope.isExamination = false;
+            $scope.allowBackward = false;
+            $scope.texttype = 'default';
             $scope.advanceText();
         } else {
             $scope.pressLoc = $scope.lines.indexOf($scope.line);
@@ -343,6 +348,8 @@ if($scope.line.choices){
             $scope.closeEvidence();
             $scope.incorrect = true;
             $scope.isExamination = false;
+            $scope.allowBackward = false;
+            $scope.texttype = 'default';
             $scope.advanceText();
         }
     };
@@ -368,7 +375,6 @@ if($scope.line.choices){
     };
 $scope.madeChoice = function(choice) {
   $scope.isChoice = false;
-  debugger;
   $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].choices[choice];
   $scope.lines = $scope.currScene.lines;
   $scope.advanceText();
