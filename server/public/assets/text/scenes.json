@@ -12,59 +12,52 @@
             "character": "aesop",
             "showBox": "aesop.png",
             "emotion": "default"
-        },
-      {
-        "line": "In this game, you play the role of a defense attorney trying to get a 'Not Guilty' verdict for their client."
-        },
-      {
-        "line": "Though the case may seem grim, the truth is out there! You have a few weapons at your disposal."
-        },
-      {
-        "line": "The first is the power to 'press'. The press button will appear when you are able to press a witness for more information. Go ahead and try now!",
-        "denyForward": "true",
-        "allowPress": "true",
-        "presstext": {
-          "lines": [{
-            "line": "*bark*",
-            "blip": "dog bark.wav",
-            "type": "default"
-          },
-        {
-          "line": "Great job! I will now introduce your second weapon."
+        }, {
+            "line": "In this game, you play the role of a defense attorney trying to get a 'Not Guilty' verdict for their client."
+        }, {
+            "line": "Though the case may seem grim, the truth is out there! You have a few weapons at your disposal."
+        }, {
+            "line": "The first is the power to 'press'. The press button will appear when you are able to press a witness for more information. Go ahead and try now!",
+            "denyForward": "true",
+            "allowPress": "true",
+            "presstext": {
+                "lines": [{
+                    "line": "*bark*",
+                    "blip": "dog bark.wav",
+                    "type": "default"
+                }, {
+                    "line": "Great job! I will now introduce your second weapon."
 
-          }]
-        }
-        },
-      {
-        "line": "Your second weapon is evidence. Go ahead and click the 'Evidence' button in the top left, and then click on me. After you are done, go ahead and click the arrow.",
-        "type": "default",
-        "show":"0"
-        },
-      {
-        "line": "To advance in the game, you must show the correct evidence to a statement with the present button."
-        },
-      {
-        "line": "The present button is now enabled in the evidence window. Use it with our Aesop evidence!",
-        "type": "examination",
-        "denyPress": "true",
-        "denyForward": "true",
-        "correctevidence": "aesop",
-        "correctlines": {
-          "lines": [{
-            "line":"Way to go! We're now finished with this tutorial.",
-            "type":"default"
-            },
-          {
-            "line":"Your client is accused of murder. But I'm sure you've got this!"
-            }]
+                }]
+            }
+        }, {
+            "line": "Your second weapon is evidence. Go ahead and click the 'Evidence' button in the top left, and then click on me. After you are done, go ahead and click the arrow.",
+            "type": "default",
+            "show": "0"
+        }, {
+            "line": "To advance in the game, you must show the correct evidence to a statement with the present button."
+        }, {
+            "line": "The present button is now enabled in the evidence window. Use it with our Aesop evidence!",
+            "type": "examination",
+            "denyPress": "true",
+            "denyForward": "true",
+            "denyBackward": "true",
+            "correctevidence": "aesop",
+            "correctlines": {
+                "lines": [{
+                    "line": "Way to go! We're now finished with this tutorial.",
+                    "type": "default"
+                }, {
+                    "line": "Your client is accused of murder. But I'm sure you've got this!"
+                }]
 
-        }
+            }
         }]
     },
     "opening": {
 
         "lines": [{
-            "line": "This is the first line of my testimony.",
+            "line": "We did an autopsy, but it ain't that important.",
             "correctevidence": "none",
             "hideBox": "true",
             "background": "witnessempty",
@@ -76,21 +69,44 @@
             "presstext": {
                 "lines": [{
                     "type": "default",
-                    "line": "You've done it now pal!",
-                    "emotion": "mad"
+                    "line": "You've done it now pal! Do you think you need the autopsy report?!",
+                    "emotion": "mad",
+                    "denyForward": "true",
+                    "choices": {
+                        "choiceA": {
+                            "text": "Yes"
+                        },
+                        "choiceB": {
+                            "text": "No"
+                        },
+                        "choiceAChosen": {
+                            "text": "Yes",
+                            "lines": [{
+                                "line": "Alright, fine!",
+                                "emotion": "mad"
+                            }, {
+                              "line": "Autopsy report added to the court record.",
+                              "show": "2",
+                              "showBox": "autopsyreport.png",
+                              "talking": "default",
+                              "sfx": "selectjingle.wav",
+                              "blip": "typewriter.wav"
+                              }]
+                        },
+                        "choiceBChosen": {
+                            "text": "No",
+                            "lines": [{
+                                "line": "Err ... okay then.",
+                                "emotion": "laughing"
+                            }]
+                        }
+                    }
                 }, {
                     "line": "Now we're in some good old presstext!",
                     "character": "defense",
                     "emotion": "confident",
                     "background": "defenseempty"
 
-                }, {
-                    "line": "Autopsy report added to the court record.",
-                    "show": "2",
-                    "showBox": "autopsyreport.png",
-                    "talking": "default",
-                    "sfx": "selectjingle.wav",
-                    "blip": "typewriter.wav"
                 }]
             },
 

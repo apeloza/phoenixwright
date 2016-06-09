@@ -14,6 +14,11 @@
             <img class="evidence" id="badge" src="../assets/evidence/lawyerbadge.png" ng-show="hiddenEvidence[1]" ng-click="setActiveEvidence('badge')"  />
             <img class="evidence" id="autopsyreport" src="../assets/evidence/autopsyreport.png" ng-show="hiddenEvidence[2]" ng-click="setActiveEvidence('autopsyreport')" />
         </div>
+        <div class="choicebox" ng-show="isChoice" >
+          <button class="btn choicebtn" ng-show="isChoiceA" ng-click="madeChoice('choiceAChosen')">{{choiceAText}}</button>
+          <button class="btn choicebtn" ng-show="isChoiceB" ng-click="madeChoice('choiceBChosen')">{{choiceBText}}</button>
+          <button class="btn choicebtn" ng-show="isChoiceC" ng-click="madeChoice('choiceCChosen')">{{choiceCText}}</button>
+        </div>
         <div class="namebox">
             {{charName}}
         </div>
@@ -21,7 +26,7 @@
         <div class="textbox" ng-style="texttype">
             <p ng-bind="displayLine" ></p>
             <img class="pointer" src="../assets/interfaceimages/pointer.gif" ng-click="advanceText()" ng-show="allowForward" />
-            <img class="pointer-prev" src="../assets/interfaceimages/pointer.gif" ng-click="prevText()" ng-show="isExamination" />
+            <img class="pointer-prev" src="../assets/interfaceimages/pointer.gif" ng-click="prevText()" ng-show="allowBackward" />
         </div>
 
         <img class="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}"  ng-hide="evidencePanel" />

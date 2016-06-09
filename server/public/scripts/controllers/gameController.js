@@ -16,13 +16,14 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkScene();
         $scope.line = $scope.lines[nextIndex];
         checkCharacter();
+        checkSprite();
         checkBackground();
         checkMusic();
         checkTextType();
         checkNewEvidence();
         checkEvidenceBox();
         checkPress();
-        checkForward();
+        checkArrows();
         if ($scope.line.testimonyStart) {
             startTestimony();
         }
@@ -50,8 +51,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkScene();
         $scope.line = $scope.lines[nextIndex];
         checkCharacter();
+        checkSprite();
         checkBackground();
-        checkMusic();
         checkTextType();
 
         if ($scope.line.testimonyStart) {
@@ -120,6 +121,25 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             nextIndex = 0;
         }
     }
+
+    //Checks to see if a choice must be made
+    function checkChoices(){
+if($scope.line.choices){
+  $scope.isChoice = true;
+  if($scope.line.choices.choiceA){
+    $scope.isChoiceA = true;
+    $scope.choiceAText = $scope.line.choices.choiceA.text;
+  }
+  if($scope.line.choices.choiceB){
+    $scope.isChoiceB = true;
+    $scope.choiceBText = $scope.line.choices.choiceB.text;
+  }
+  if($scope.line.choices.choiceC){
+    $scope.isChoiceC = true;
+    $scope.choiceCText = $scope.line.choices.choiceC.text;
+  }
+}
+    }
     //Checks to see what bench sprites might need to be displayed on the screen, based on the background.
     function checkBenches() {
         if ($scope.line.background == 'defenseempty') {
@@ -148,7 +168,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.music.pause();
             $scope.music = ngAudio.load("../assets/audio/bgm/" + $scope.line.music + ".mp3");
             $scope.music.loop = true;
-            $scope.music.volume = 0.5;
+            $scope.music.volume = 0.75;
             $scope.music.play();
         }
     }
@@ -165,7 +185,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.currChar = DataFactory.getCharacter($scope.line.character);
             $scope.charName = $scope.currChar.name;
         }
-        checkSprite();
     }
 
     //Checks to see if there is a new background, and after setting it checks to see if the new background requires additional sprites.
@@ -185,6 +204,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             };
             $scope.allowPress = true;
             $scope.isExamination = true;
+            $scope.allowBackward = true;
         } else if ($scope.line.type == 'thought') {
             $scope.texttype = {
                 'color': 'dodgerblue'
@@ -211,13 +231,19 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     }
 
     //Mostly used in the tutorial, allows for manual suppression of the forwards arrow.
-    function checkForward() {
-        if ($scope.line.denyForward) {
+    function checkArrows() {
+        if ($scope.line.denyForward && $scope.line.denyBackward) {
             $scope.allowForward = false;
+            $scope.allowBackward = false;
+        } else if ($scope.line.denyForward) {
+            $scope.allowForward = false;
+        } else if ($scope.line.denyBackward) {
+            $scope.allowBackward = false;
         } else {
             $scope.allowForward = true;
         }
     }
+
     //'Types' out text onto the DOM.
     $scope.typeText = function() {
         if ($scope.displayLine.length < $scope.line.line.length) {
@@ -228,6 +254,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         } else {
             $scope.talking = false;
             $scope.isTalking = 'finished';
+            checkChoices();
         }
     };
     $scope.openEvidence = function() {
@@ -261,7 +288,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         $scope.displayLine = $scope.lines[$scope.evidenceLoc].line;
         checkTextType();
         checkBenches();
-        checkForward();
+        checkArrows();
         if ($scope.wasEvidence === true) {
             $scope.evidenceBox = true;
             $scope.wasEvidence = false;
@@ -281,6 +308,10 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     //Prepares the case to go back to the title by turning off anything that's currently active.
     $scope.toTitle = function() {
         $scope.music.stop();
+        $http.post('/save', $scope.currScene, $scope.lines.indexOf($scope.line))
+            .then(function() {
+
+            });
     };
     //The clicked evidence is set as the active piece of evidence.
     $scope.setActiveEvidence = function(evName) {
@@ -294,7 +325,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
 
     //Handles objections when pressing the 'Present' button
     $scope.presentEvidence = function(evName) {
-        debugger;
         objection.play();
         $scope.activesrc = $scope.currEvidence.image;
         $scope.evidenceBox = true;
@@ -321,9 +351,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     $scope.pressWitness = function() {
         var holdIt = ngAudio.load("../assets/audio/sfx/defenseholdit.wav");
         holdIt.play();
-console.log($scope.lines.indexOf($scope.line));
-console.log($scope.lines.length);
-        if ($scope.lines.indexOf($scope.line) + 1  == $scope.lines.length) {
+        console.log($scope.lines.indexOf($scope.line));
+        console.log($scope.lines.length);
+        if ($scope.lines.indexOf($scope.line) + 1 == $scope.lines.length) {
             $scope.pressLoc = 0;
         } else {
             $scope.pressLoc = $scope.lines.indexOf($scope.line) + 1;
@@ -333,13 +363,21 @@ console.log($scope.lines.length);
         $scope.lines = $scope.currScene.lines;
         $scope.isPress = true;
         $scope.isExamination = false;
+        $scope.allowBackward = false;
         $scope.advanceText();
     };
-
+$scope.madeChoice = function(choice) {
+  $scope.isChoice = false;
+  debugger;
+  $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].choices[choice];
+  $scope.lines = $scope.currScene.lines;
+  $scope.advanceText();
+};
     //The data factory fetches all our JSON files with ajax requests, and then our variables are set up.
     DataFactory.initialize().then(function() {
         $scope.scenes = ['tutorial', 'opening', 'courtroom', 'testimonyone'];
-        $scope.music = ngAudio.load("../assets/audio/bgm/courtroomlobby.mp3");
+        $scope.music = ngAudio.load("../assets/audio/bgm/logic.mp3");
+        $scope.music.loop = true;
         $scope.music.play();
         $scope.currChar = DataFactory.getCharacter('tutorial');
         $scope.currScene = DataFactory.getScene('tutorial');

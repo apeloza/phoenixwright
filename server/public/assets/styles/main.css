@@ -177,3 +177,20 @@ border-color: buttonface;
   float: left;
   position: fixed;
 }
+.choicebox{
+  position: fixed;
+top: 20%;
+left: 35%;
+width: 60%;
+}
+.choicebtn{
+  width: 50%;
+  margin: 20px 0;
+  background-color: brown;
+  color: white;
+  font-family: "Ace Attorney", sans-serif;
+  font-size: 20px;
+  border-width: 2px;
+  border-style: outset;
+  border-color: buttonface;
+}
