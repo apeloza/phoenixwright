@@ -24,12 +24,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkEvidenceBox();
         checkPress();
         checkArrows();
-        if ($scope.line.testimonyStart) {
-            startTestimony();
-        }
-        if ($scope.line.examinationStart) {
-            startExamination();
-        }
+        checkAnim();
         $scope.displayLine = '';
         $scope.talking = true;
         $scope.isTalking = 'talking';
@@ -81,7 +76,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.hiddenEvidence[$scope.line.showEvidence] = true;
         }
         if ($scope.line.hideEvidence) {
-          $scope.hiddenEvidence[$scope.line.hideEvidence] = false;
+            $scope.hiddenEvidence[$scope.line.hideEvidence] = false;
+            $scope.evidencePlaceholder[$scope.line.hideEvidence] = false;
         }
     }
 
@@ -108,13 +104,20 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     }
     //Governs behaviour regarding what is displayed 'next' in the textbox, should a series of lines end.
     function checkScene() {
-        if (nextIndex == $scope.lines.length && $scope.isPress === true || nextIndex == $scope.lines.length && $scope.incorrect === true) {
+        if (nextIndex == $scope.lines.length && $scope.incorrectChoice === true) {
+            $scope.currScene = $scope.choiceScene;
+            $scope.lines = $scope.currScene.lines;
+            nextIndex = $scope.choiceLoc;
+            $scope.incorrectChoice = false;
+        }
+        if (nextIndex == $scope.lines.length && $scope.isPress === true || nextIndex == $scope.lines.length && $scope.incorrectEvidence === true) {
             $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
             $scope.lines = $scope.currScene.lines;
             nextIndex = $scope.pressLoc;
             console.log(nextIndex);
             $scope.isPress = false;
             $scope.isExamination = true;
+            $scope.incorrectEvidence = false;
         } else if (nextIndex == $scope.lines.length && $scope.isExamination === true) {
             nextIndex = 0;
         } else if (nextIndex == $scope.lines.length) {
@@ -126,22 +129,23 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     }
 
     //Checks to see if a choice must be made
-    function checkChoices(){
-if($scope.line.choices){
-  $scope.isChoice = true;
-  if($scope.line.choices.choiceA){
-    $scope.isChoiceA = true;
-    $scope.choiceAText = $scope.line.choices.choiceA.text;
-  }
-  if($scope.line.choices.choiceB){
-    $scope.isChoiceB = true;
-    $scope.choiceBText = $scope.line.choices.choiceB.text;
-  }
-  if($scope.line.choices.choiceC){
-    $scope.isChoiceC = true;
-    $scope.choiceCText = $scope.line.choices.choiceC.text;
-  }
-}
+    function checkChoices() {
+        if ($scope.line.choices) {
+            $scope.choiceScene = $scope.currScene;
+            $scope.isChoice = true;
+            if ($scope.line.choices.choiceA) {
+                $scope.isChoiceA = true;
+                $scope.choiceAText = $scope.line.choices.choiceA.text;
+            }
+            if ($scope.line.choices.choiceB) {
+                $scope.isChoiceB = true;
+                $scope.choiceBText = $scope.line.choices.choiceB.text;
+            }
+            if ($scope.line.choices.choiceC) {
+                $scope.isChoiceC = true;
+                $scope.choiceCText = $scope.line.choices.choiceC.text;
+            }
+        }
     }
     //Checks to see what bench sprites might need to be displayed on the screen, based on the background.
     function checkBenches() {
@@ -167,7 +171,11 @@ if($scope.line.choices){
 
     //If there is new music, reset the audio track.
     function checkMusic() {
-        if ($scope.line.music) {
+        if ($scope.line.music == "stop") {
+            $scope.music.pause();
+        } else if ($scope.line.music == "play") {
+            $scope.music.play();
+        } else if ($scope.line.music) {
             $scope.music.pause();
             $scope.music = ngAudio.load("../assets/audio/bgm/" + $scope.line.music + ".mp3");
             $scope.music.loop = true;
@@ -199,15 +207,36 @@ if($scope.line.choices){
             checkBenches();
         }
     }
+
+    function checkAnim() {
+        if ($scope.line.anim) {
+            $scope.playAnimation = true;
+            $scope.animationsrc = $scope.line.anim.src;
+            $scope.allowForward = false;
+            $scope.allowBackward = false;
+            $timeout(stopAnimation, $scope.line.anim.time);
+        }
+    }
     //Checks to see if the text color should be changed. Testimonies have special properties that are also enabled this way.
     function checkTextType() {
+        if ($scope.line.type == 'intro') {
+            $scope.texttype = {
+                'color': 'green',
+                'text-align': 'center'
+            };
+            $scope.charName = '';
+            $scope.allowPress = false;
+            $scope.allowBackward = false;
+        }
         if ($scope.line.type == 'examination') {
             $scope.texttype = {
                 'color': 'green'
             };
             $scope.allowPress = true;
             $scope.isExamination = true;
-            $scope.allowBackward = true;
+            if ($scope.lines.indexOf($scope.line) !== 0 || $scope.lines.indexOf($scope.line) != 1) {
+                $scope.allowBackward = true;
+            }
         } else if ($scope.line.type == 'thought') {
             $scope.texttype = {
                 'color': 'dodgerblue'
@@ -269,6 +298,7 @@ if($scope.line.choices){
         $scope.isWitness = false;
         $scope.wasEvidence = false;
         $scope.allowForward = false;
+        $scope.allowPress = false;
         if ($scope.evidenceBox === true) {
             $scope.wasEvidence = true;
             $scope.evidenceBox = false;
@@ -277,13 +307,17 @@ if($scope.line.choices){
         $scope.charName = '';
         open.play();
     };
+    $scope.playAnimation = true;
+    $scope.animationsrc = '../assets/interfaceimages/xexamine.gif';
+    $scope.allowForward = false;
+    $scope.allowBackward = false;
+    $timeout(stopAnimation, 2500);
 
-    function startTestimony() {
-        console.log('testimony started');
-    }
 
-    function startExamination() {
-        console.log('examination started');
+    function stopAnimation() {
+        $scope.animationsrc = '';
+        $scope.playAnimation = false;
+        checkArrows();
     }
     //The evidence window is hidden, and the text and other images are re-set to where the player left off.
     $scope.closeEvidence = function() {
@@ -292,6 +326,7 @@ if($scope.line.choices){
         checkTextType();
         checkBenches();
         checkArrows();
+        checkPress();
         if ($scope.wasEvidence === true) {
             $scope.evidenceBox = true;
             $scope.wasEvidence = false;
@@ -328,11 +363,14 @@ if($scope.line.choices){
 
     //Handles objections when pressing the 'Present' button
     $scope.presentEvidence = function(evName) {
+        $scope.playAnimation = true;
+        $scope.animationsrc = "../assets/interfaceimages/objection.gif";
+        $timeout(stopAnimation, 500);
         objection.play();
         $scope.activesrc = $scope.currEvidence.image;
         $scope.evidenceBox = true;
         if ($scope.line.correctevidence == $scope.currEvidence.id) {
-            $scope.incorrect = false;
+            $scope.incorrectEvidence = false;
             $scope.closeEvidence();
 
             $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].correctlines;
@@ -346,7 +384,7 @@ if($scope.line.choices){
             $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].incorrectlines;
             $scope.lines = $scope.currScene.lines;
             $scope.closeEvidence();
-            $scope.incorrect = true;
+            $scope.incorrectEvidence = true;
             $scope.isExamination = false;
             $scope.allowBackward = false;
             $scope.texttype = 'default';
@@ -358,6 +396,9 @@ if($scope.line.choices){
     $scope.pressWitness = function() {
         var holdIt = ngAudio.load("../assets/audio/sfx/defenseholdit.wav");
         holdIt.play();
+        $scope.playAnimation = true;
+        $scope.animationsrc = "../assets/interfaceimages/holdit.gif";
+        $timeout(stopAnimation, 500);
         console.log($scope.lines.indexOf($scope.line));
         console.log($scope.lines.length);
         if ($scope.lines.indexOf($scope.line) + 1 == $scope.lines.length) {
@@ -373,15 +414,20 @@ if($scope.line.choices){
         $scope.allowBackward = false;
         $scope.advanceText();
     };
-$scope.madeChoice = function(choice) {
-  $scope.isChoice = false;
-  $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].choices[choice];
-  $scope.lines = $scope.currScene.lines;
-  $scope.advanceText();
-};
+    $scope.madeChoice = function(choice) {
+        $scope.choiceLoc = $scope.lines.indexOf($scope.line);
+        $scope.clickedChoice = true;
+        $scope.isChoice = false;
+        $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].choices[choice];
+        $scope.lines = $scope.currScene.lines;
+        if ($scope.currScene.incorrect) {
+            $scope.incorrectChoice = true;
+        }
+        $scope.advanceText();
+    };
     //The data factory fetches all our JSON files with ajax requests, and then our variables are set up.
     DataFactory.initialize().then(function() {
-        $scope.scenes = ['tutorial', 'opening', 'courtroom', 'testimonyone'];
+        $scope.scenes = ['tutorial', 'opening', 'examinationOne'];
         $scope.music = ngAudio.load("../assets/audio/bgm/logic.mp3");
         $scope.music.loop = true;
         $scope.music.play();
@@ -398,7 +444,18 @@ $scope.madeChoice = function(choice) {
         $scope.isWitness = false;
         $scope.isPress = false;
         $scope.allowForward = true;
-        $scope.hiddenEvidence = [false, false, false, false, false];
+        $scope.playAnimation = false;
+        $scope.evidence = DataFactory.evidenceList();
+        $scope.hiddenEvidence = [];
+        $scope.evidencePlaceholder = [];
+
+        //Sets the # of evidence boxes to show in the evidence window.
+        var length = DataFactory.getEvidenceLength();
+        for (var i = 0; i < length; i++) {
+            $scope.hiddenEvidence.push(false);
+            $scope.evidencePlaceholder.push(true);
+        }
+        console.log($scope.hiddenEvidence);
     });
 
 }]);

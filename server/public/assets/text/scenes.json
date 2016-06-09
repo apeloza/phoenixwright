@@ -55,19 +55,187 @@
         }]
     },
     "opening": {
+        "lines": [{
+            "line": "7:00 AM, June 20th, District Court House #3",
+            "hideBox": "true",
+            "type": "intro",
+            "blip": "typewriter.wav",
+            "music": "stop",
+            "background": "courtroomHall"
+        }, {
+            "line": "(You can do this, Perl!)",
+            "character": "defense",
+            "emotion": "none",
+            "type": "thought",
+            "music": "courtroomlobby"
+        }, {
+            "line": "(It's like riding a bike ... right?)"
+        }, {
+            "line": "My name is Perl. I'm a junior attorney with the Prime & Co Law Office.",
+            "type": "default"
+        }, {
+            "line": "While I've had a lot of minor cases this past year, I've never had something quite like this ..."
+        }, {
+            "line": "I just know that I'm ready, though!"
+        }, {
+            "line": "... who am I talking to?"
+        }, {
+            "line": "... where's my client?",
+            "sfx": "whoops.wav"
+        }, {
+            "line": "Maybe I'm not as ready as I thought ..."
+        }, {
+            "line": "Oh!",
+            "emotion": "witnessThreeneutral",
+            "talking": "default",
+            "sfx": "realization.wav",
+            "music": "stop"
+        }, {
+            "line": "Good evening.",
+            "character": "witnessThree",
+            "emotion": "default",
+            "music": "java"
+        }, {
+            "line": "Evening ... isn't it morning?",
+            "character": "defense",
+            "emotion": "witnessThreeneutral",
+            "talking": "default"
+        }, {
+            "line": "It's always evening here.",
+            "character": "witnessThree",
+            "emotion": "confident"
+        }, {
+            "line": "In the halls of justice ... didn't you know?"
+        }, {
+            "line": "Err ... no. I didn't. Look, I'll be honest with you ...",
+            "character": "defense",
+            "emotion": "witnessThreeconfident",
+            "talking": "default"
+        }, {
+            "line": "Your case is looking pretty rough.",
+            "talking": "default"
+        }, {
+            "line": ". . .",
+            "character": "witnessThree",
+            "emotion": "aside",
+            "talking": "default"
+        }, {
+            "line": ". . . I'm waiting for my attorney. I don't want to talk about it."
+        }, {
+            "line": ". . . ?",
+            "sfx": "realization.wav",
+            "character": "defense",
+            "emotion": "witnessThreeaside"
+        }, {
+            "line": "I -am- your attorney."
+        }, {
+            "line": "We met just yesterday, remember?"
+        }, {
+            "line": "(Yikes . . .)",
+            "type": "thought"
+        }, {
+            "line": "You're always my attorney here.",
+            "character": "witnessThree",
+            "emotion": "confident",
+            "type": "default"
+        }, {
+            "line": "In the halls of justice ... didn't you know?"
+        }, {
+            "line": ". . .",
+            "character": "defense",
+            "emotion": "witnessThreeconfident"
+        }, {
+            "line": ". . .",
+            "character": "witnessThree",
+            "emotion": "confident",
+            "talking": "default"
+        }, {
+            "line": "That sounded better in my head.",
+            "emotion": "aside"
+        }, {
+            "line": "I didn't get much sleep last night . . ."
+        }, {
+            "line": "(I'm doomed.)",
+            "character": "defense",
+            "emotion": "witnessThreeaside",
+            "type": "thought"
+        }, {
+            "line": "Look, don't worry about it.",
+            "type": "default"
+        }, {
+            "line": "I'm sure you're innocent. You'll come through okay!"
+        }, {
+            "line": "I'm always innocent ...",
+            "character": "witnessThree",
+            "emotion": "confident"
+        }, {
+            "line": ". . .",
+            "character": "defense",
+            "emotion": "witnessThreeconfident"
+        }, {
+            "line": "That's it. You were expecting more? I'm always innocent, and this time is no exception.",
+            "character": "witnessThree",
+            "emotion": "confident"
+        }, {
+            "line": "I promise.",
+            "emotion": "default",
+            "sfx": "stab.wav"
+        }, {
+            "line": "That's all I need to hear. I promise that you'll be found innocent!",
+            "character": "defense",
+            "emotion": "witnessThreeneutral"
+        }, {
+            "line": "(I hope I can keep that promise . . .)",
+            "type": "thought"
+        }, {
+            "line": "So that's my client, Java. He's in some sort of programming job, and he was friends with the victim.",
+            "type": "default"
+        }, {
+            "line": "I don't know him all that well yet, but I get the feeling he's hiding something ..."
+        }, {
+            "line": "... who are you talking to?",
+            "character": "witnessThree",
+            "emotion": "default"
+        }, {
+            "line": "!",
+            "character": "defense",
+            "emotion": "witnessThreeneutral",
+            "sfx": "lightbulb.wav"
+        }, {
+            "line": "I'm so sorry! I, umm ... I think I hear the bailiff calling us right now!"
+        }, {
+            "line": "Really? It doesn't look like it's time yet . . .",
+            "character": "witnessThree",
+            "emotion": "aside"
+        }, {
+            "line": "Nopeit'sdefinitelytimelet'sgo!",
+            "character": "defense",
+            "emotion": "witnessThreeaside",
+            "sfx": "stab.wav"
+        }]
+    },
+    "examinationOne": {
 
         "lines": [{
-            "line": "We did an autopsy, but it ain't that important.",
+            "line": "Why He's Guilty",
+            "type": "intro",
+            "blip": "typewriter.wav",
+            "background": "witnessempty",
             "hideEvidence": "0",
             "showEvidence": "1",
-            "correctevidence": "none",
             "hideBox": "true",
-            "background": "witnessempty",
             "character": "detective",
             "emotion": "default",
             "music": "xmoderate",
+            "anim": {
+                "src": "../assets/interfaceimages/xexamine.gif",
+                "time": "2500"
+            }
+        }, {
+            "line": "We did an autopsy, but it ain't that important.",
+            "correctevidence": "none",
+            "character": "detective",
             "type": "examination",
-            "examinationStart": "true",
             "presstext": {
                 "lines": [{
                     "type": "default",
@@ -87,13 +255,13 @@
                                 "line": "Alright, fine!",
                                 "emotion": "mad"
                             }, {
-                              "line": "Autopsy report added to the court record.",
-                              "showEvidence": "2",
-                              "showBox": "autopsyreport.png",
-                              "talking": "default",
-                              "sfx": "selectjingle.wav",
-                              "blip": "typewriter.wav"
-                              }]
+                                "line": "Autopsy report added to the court record.",
+                                "showEvidence": "2",
+                                "showBox": "autopsyreport.png",
+                                "talking": "default",
+                                "sfx": "selectjingle.wav",
+                                "blip": "typewriter.wav"
+                            }]
                         },
                         "choiceBChosen": {
                             "text": "No",
@@ -153,7 +321,8 @@
                     "character": "defense",
                     "emotion": "pointing",
                     "music": "objection",
-                    "background": "defenseempty"
+                    "background": "defenseempty",
+                    "type": "default"
                 }, {
                     "line": "It's impossible that Bracket was killed with a teacup!"
                 }, {
@@ -163,18 +332,82 @@
                     "background": "prosecutorempty",
                     "sfx": "stab.wav"
                 }, {
-                    "line": "Look at this autopsy report.",
-                    "character": "defense",
-                    "emotion": "leaning",
-                    "background": "defenseempty",
-                    "showBox": "autopsyreport.png"
-                }, {
-                    "line": "It says right here that blunt force trauma was ruled out as a cause of death!"
-                }, {
-                    "line": "Oooogh ...!",
-                    "character": "detective",
-                    "emotion": "mad",
-                    "background": "witnessempty"
+                    "line": "Tell me what is wrong with the autopsy report!",
+                    "denyForward": "true",
+                    "character": "prosecutor",
+                    "emotion": "sweating",
+                    "choices": {
+                        "choiceA": {
+                            "text": "The time of death"
+                        },
+                        "choiceB": {
+                            "text": "The cause of death"
+                        },
+                        "choiceC": {
+                            "text": "The victim"
+                        },
+                        "choiceAChosen": {
+                            "incorrect": "true",
+                            "lines": [{
+                                "line": "The time of death is wrong?",
+                                "character": "prosecutor",
+                                "emotion": "document",
+                                "background": "prosecutorempty"
+                            }, {
+                                "line": "But I know it's right, pal! I was there at the scene!",
+                                "character": "detective",
+                                "emotion": "pumped",
+                                "sfx": "stab2.wav",
+                                "background": "witnessempty",
+                                "music": "stop"
+                            }, {
+                                "line": "Uh-oh!",
+                                "character": "defense",
+                                "background": "defenseempty",
+                                "emotion": "sweating",
+                                "sfx": "whoops.wav",
+                                "talking": "default",
+                                "type": "thought"
+                            }]
+                        },
+                        "choiceBChosen": {
+
+                            "lines": [{
+                                "line": "Look at this autopsy report.",
+                                "character": "defense",
+                                "emotion": "leaning",
+                                "background": "defenseempty",
+                                "showBox": "autopsyreport.png"
+                            }, {
+                                "line": "It says right here that blunt force trauma was ruled out as a cause of death!"
+                            }, {
+                                "line": "Oooogh ...!",
+                                "character": "detective",
+                                "emotion": "mad",
+                                "background": "witnessempty"
+                            }]
+                        },
+                        "choiceCChosen": {
+                            "incorrect": "true",
+                            "lines": [{
+                                "line": "The victim is wrong?",
+                                "character": "prosecutor",
+                                "background": "prosecutorempty",
+                                "emotion": "shrug"
+                            }, {
+                                "line": "His own relatives identified him!",
+                                "emotion": "pointing"
+                            }, {
+                                "line": "Whoops!",
+                                "character": "defense",
+                                "emotion": "sweating",
+                                "background": "defenseempty",
+                                "sfx": "whoops.wav",
+                                "talking": "default",
+                                "type": "thought"
+                            }]
+                        }
+                    }
                 }]
             }
         }]

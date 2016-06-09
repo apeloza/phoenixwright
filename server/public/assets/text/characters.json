@@ -18,6 +18,10 @@
       "thinking": {
         "talking": "witnessOne/witnessOne_thinking_speaking.gif",
         "finished": "witnessOne/witnessOne_thinking.gif"
+      },
+      "none": {
+        "talking": "nosprite.png",
+        "finished": "nosprite.png"
       }
     }
   },
@@ -27,6 +31,10 @@
     "emotions": {
       "default": {
         "talking": "witnessTwo/witnessTwo_speaking.gif"
+      },
+      "none": {
+        "talking": "nosprite.png",
+        "finished": "nosprite.png"
       }
     }
   },
@@ -35,13 +43,20 @@
     "defaultSound": "blipmale",
     "emotions": {
       "default": {
-        "talking": "witnessThree/witnessThree_neutral_speaking.gif"
+        "talking": "witnessThree/witnessThree_neutral_speaking.gif",
+        "finished": "witnessThree/witnessThree_neutral.png"
       },
       "confident": {
-        "talking": "witnessThree/witnessThree_confident_speaking.gif"
+        "talking": "witnessThree/witnessThree_confident_speaking.gif",
+        "finished": "witnessThree/witnessThree_confident.png"
       },
       "aside": {
-        "talking": "witnessThree/witnessThree_side_speaking.gif"
+        "talking": "witnessThree/witnessThree_side_speaking.gif",
+        "finished": "witnessThree/witnessThree_side.png"
+      },
+      "none": {
+        "talking": "nosprite.png",
+        "finished": "nosprite.png"
       }
     }
   },
@@ -80,6 +95,10 @@
       "thinking": {
         "talking": "detective/detective_thinking_speaking.gif",
         "finished": "detective/detective_thinking.gif"
+      },
+      "none": {
+        "talking": "nosprite.png",
+        "finished": "nosprite.png"
       }
       }
     },
@@ -126,6 +145,21 @@
         "thinking": {
           "talking":"defense/defense_thinking_talking.gif",
           "finished":"defense/defense_thinking.gif"
+        },
+        "none": {
+          "talking": "nosprite.png",
+          "finished": "nosprite.png"
+        },
+        "witnessThreeneutral": {
+          "talking":"witnessThree/witnessThree_neutral.png",
+          "finished":"witnessThree/witnessThree_neutral.png"
+        },
+        "witnessThreeconfident": {
+          "talking":"witnessThree/witnessThree_confident.png",
+          "finished":"witnessThree/witnessThree_confident.png"
+        },"witnessThreeaside": {
+          "talking":"witnessThree/witnessThree_side.png",
+          "finished":"witnessThree/witnessThree_side.png"
         }
       }
     },
@@ -156,6 +190,10 @@
         "warning": {
           "talking":"judge/judge_warning_speaking.gif",
           "finished":"judge/judge_warning.gif"
+        },
+        "none": {
+          "talking": "nosprite.png",
+          "finished": "nosprite.png"
         }
       }
     },
@@ -198,6 +236,10 @@
         "thinking": {
           "talking":"prosecutor/prosecutor_thinking_speaking.gif",
           "finished":"prosecutor/prosecutor_thinking.gif"
+        },
+        "none": {
+          "talking": "nosprite.png",
+          "finished": "nosprite.png"
         }
       }
     },

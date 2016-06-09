@@ -33,6 +33,9 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
     function scenesArray() {
         return scenes;
     }
+    function evidenceList(){
+      return evidence;
+    }
 
     function getEvidenceItem(name) {
         return evidence[name];
@@ -52,6 +55,15 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
         });
         return promise;
     }
+    function getEvidenceLength() {
+      var length = 0;
+    for( var key in evidence ) {
+        if( evidence.hasOwnProperty(key) ) {
+            length++;
+        }
+    }
+    return length;
+    }
 
 
     //PUBLIC
@@ -61,7 +73,9 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
         getScene: getScene,
         getEvidenceItem: getEvidenceItem,
         initialize: initialize,
-        scenesArray: scenesArray
+        scenesArray: scenesArray,
+        getEvidenceLength: getEvidenceLength,
+        evidenceList: evidenceList
 
     };
     return publicApi;
