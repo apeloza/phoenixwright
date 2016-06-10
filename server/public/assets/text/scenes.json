@@ -61,7 +61,9 @@
             "type": "intro",
             "blip": "typewriter.wav",
             "music": "stop",
-            "background": "courtroomHall"
+            "background": "courtroomHall",
+            "hideEvidence": "0",
+            "showEvidence": "1"
         }, {
             "line": "(You can do this, Perl!)",
             "character": "defense",
@@ -219,10 +221,9 @@
         "lines": [{
             "line": "Why He's Guilty",
             "type": "intro",
-            "blip": "typewriter.wav",
+            "blip": "none",
+            "sfx": "testimony2.wav",
             "background": "witnessempty",
-            "hideEvidence": "0",
-            "showEvidence": "1",
             "hideBox": "true",
             "character": "detective",
             "emotion": "default",
@@ -236,6 +237,7 @@
             "correctevidence": "none",
             "character": "detective",
             "type": "examination",
+            "denyBackward": "true",
             "presstext": {
                 "lines": [{
                     "type": "default",

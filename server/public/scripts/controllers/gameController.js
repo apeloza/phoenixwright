@@ -49,13 +49,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkSprite();
         checkBackground();
         checkTextType();
-
-        if ($scope.line.testimonyStart) {
-            startTestimony();
-        }
-        if ($scope.line.examinationStart) {
-            startExamination();
-        }
+        checkArrows();
         $scope.displayLine = '';
         $scope.talking = true;
         $scope.isTalking = 'talking';
@@ -119,7 +113,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.isExamination = true;
             $scope.incorrectEvidence = false;
         } else if (nextIndex == $scope.lines.length && $scope.isExamination === true) {
-            nextIndex = 0;
+            nextIndex = 1;
         } else if (nextIndex == $scope.lines.length) {
             sceneCounter++;
             $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
@@ -175,12 +169,15 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.music.pause();
         } else if ($scope.line.music == "play") {
             $scope.music.play();
+            $scope.music.volume = 0.75;
+
         } else if ($scope.line.music) {
             $scope.music.pause();
             $scope.music = ngAudio.load("../assets/audio/bgm/" + $scope.line.music + ".mp3");
             $scope.music.loop = true;
-            $scope.music.volume = 0.75;
             $scope.music.play();
+            $scope.music.volume = 0.75;
+
         }
     }
     //If there is a new sprite, change the sprite. Should always change when character changes.
@@ -346,7 +343,21 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     //Prepares the case to go back to the title by turning off anything that's currently active.
     $scope.toTitle = function() {
         $scope.music.stop();
-        $http.post('/save', $scope.currScene, $scope.lines.indexOf($scope.line))
+        $scope.progressSave = {
+          currScene: $scope.currScene,
+          lines: $scope.lines,
+          position: $scope.lines.indexOf($scope.line),
+          scenePosition: sceneCounter,
+          evidence: $scope.hiddenEvidence,
+          evidencePlaceholder: $scope.evidencePlaceholder,
+          background: $scope.background,
+          character: $scope.currChar,
+          emotion: $scope.emotion,
+          music: $scope.music,
+          displayLine: $scope.displayLine
+
+        };
+        $http.post('/save', $scope.progressSave)
             .then(function() {
 
             });
@@ -427,35 +438,63 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     };
     //The data factory fetches all our JSON files with ajax requests, and then our variables are set up.
     DataFactory.initialize().then(function() {
-        $scope.scenes = ['tutorial', 'opening', 'examinationOne'];
+      $scope.scenes = ['tutorial', 'opening', 'examinationOne'];
+      $scope.evidence = DataFactory.evidenceList();
+
+      $http.get('/save')
+          .then(function(savefile){
+            console.log(savefile);
+            $scope.playAnimation = false;
+            if(savefile.data === '') {
         $scope.music = ngAudio.load("../assets/audio/bgm/logic.mp3");
-        $scope.music.loop = true;
-        $scope.music.play();
         $scope.currChar = DataFactory.getCharacter('tutorial');
         $scope.currScene = DataFactory.getScene('tutorial');
-        $scope.isTalking = 'talking';
-        $scope.lines = $scope.currScene.lines;
-        $scope.advanceText();
-        $scope.background = {
+        $scope.lines =  $scope.currScene.lines;
+        $scope.background =  {
             'background-image': 'url(../assets/backgrounds/startbg.png)'
-        };
-        $scope.isProsecutor = false;
+          };
+            $scope.hiddenEvidence =  [];
+            $scope.evidencePlaceholder =  [];
+            var length = DataFactory.getEvidenceLength();
+            for (var i = 0; i < length; i++) {
+                $scope.hiddenEvidence.push(false);
+                $scope.evidencePlaceholder.push(true);
+            }
+        } else{
+              $scope.music = ngAudio.load(savefile.data.music.id);
+              $scope.currChar = savefile.data.character;
+              $scope.charName = savefile.data.character.name;
+              $scope.emotion = savefile.data.emotion;
+              $scope.currScene = savefile.data.currScene;
+              $scope.lines = savefile.data.lines;
+              $scope.line = $scope.lines[savefile.data.position - 1];
+              sceneCounter = savefile.data.scenePosition;
+              $scope.background = savefile.data.background;
+              $scope.hiddenEvidence = savefile.data.evidence;
+              $scope.evidencePlaceholder = savefile.data.evidencePlaceholder;
+
+
+            }
+
+
+        $scope.music.loop = true;
+        $scope.music.play();
+        $scope.music.volume = 0.75;
+        $scope.isTalking = 'talking';
+        $scope.advanceText();
+
+        /*$scope.isProsecutor = false;
         $scope.isDefense = false;
         $scope.isWitness = false;
         $scope.isPress = false;
-        $scope.allowForward = true;
-        $scope.playAnimation = false;
-        $scope.evidence = DataFactory.evidenceList();
-        $scope.hiddenEvidence = [];
-        $scope.evidencePlaceholder = [];
+        $scope.allowForward = true;*/
+
+
 
         //Sets the # of evidence boxes to show in the evidence window.
-        var length = DataFactory.getEvidenceLength();
-        for (var i = 0; i < length; i++) {
-            $scope.hiddenEvidence.push(false);
-            $scope.evidencePlaceholder.push(true);
-        }
+
         console.log($scope.hiddenEvidence);
+        });
     });
 
 }]);
