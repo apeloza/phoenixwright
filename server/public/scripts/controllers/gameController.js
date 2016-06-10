@@ -343,24 +343,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     //Prepares the case to go back to the title by turning off anything that's currently active.
     $scope.toTitle = function() {
         $scope.music.stop();
-        $scope.progressSave = {
-          currScene: $scope.currScene,
-          lines: $scope.lines,
-          position: $scope.lines.indexOf($scope.line),
-          scenePosition: sceneCounter,
-          evidence: $scope.hiddenEvidence,
-          evidencePlaceholder: $scope.evidencePlaceholder,
-          background: $scope.background,
-          character: $scope.currChar,
-          emotion: $scope.emotion,
-          music: $scope.music,
-          displayLine: $scope.displayLine
 
-        };
-        $http.post('/save', $scope.progressSave)
-            .then(function() {
-
-            });
     };
     //The clicked evidence is set as the active piece of evidence.
     $scope.setActiveEvidence = function(evName) {
@@ -402,7 +385,100 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.advanceText();
         }
     };
+    function getSaves() {
+      $http.get('/save/all')
+          .then(function(saves) {
+              console.log(saves);
+              $scope.savesArray = saves.data;
+          });
+    }
+    $scope.saveGame = function() {
+      getSaves();
+      if($scope.savesArray.length >=3){
+        alert("You have too many saves! Delete some first.");
+        return;
+      }
+      $scope.progressSave = {
+          currScene: $scope.currScene,
+          lines: $scope.lines,
+          position: $scope.lines.indexOf($scope.line),
+          scenePosition: sceneCounter,
+          evidence: $scope.hiddenEvidence,
+          evidencePlaceholder: $scope.evidencePlaceholder,
+          background: $scope.background,
+          character: $scope.currChar,
+          emotion: $scope.emotion,
+          evidenceBox:   $scope.evidenceBox,
+          evidenceBoxSrc: $scope.activesrc,
+          music: $scope.music,
+          displayLine: $scope.displayLine
 
+      };
+      $http.post('/save', $scope.progressSave)
+          .then(function() {
+console.log('Saved!');
+          });
+    };
+    $scope.newGame = function() {
+        $scope.saveSelection = false;
+        $scope.music = ngAudio.load("../assets/audio/bgm/logic.mp3");
+        $scope.currChar = DataFactory.getCharacter('tutorial');
+        $scope.currScene = DataFactory.getScene('tutorial');
+        $scope.lines = $scope.currScene.lines;
+        $scope.background = {
+            'background-image': 'url(../assets/backgrounds/startbg.png)'
+        };
+        $scope.hiddenEvidence = [];
+        $scope.evidencePlaceholder = [];
+        var length = DataFactory.getEvidenceLength();
+        for (var i = 0; i < length; i++) {
+            $scope.hiddenEvidence.push(false);
+            $scope.evidencePlaceholder.push(true);
+        }
+        $scope.music.loop = true;
+        $scope.music.play();
+        $scope.music.volume = 0.75;
+        $scope.isTalking = 'talking';
+        $scope.advanceText();
+    };
+    $scope.deleteSave = function(id) {
+        $http.delete('/save/' + id)
+            .then(function() {
+                console.log('Deleted!');
+                getSaves();
+                    });
+    };
+    $scope.loadSave = function(id) {
+        $scope.saveSelection = false;
+        $http.get('/save/' + id)
+            .then(function(savefile) {
+                console.log(savefile);
+                $scope.music = ngAudio.load(savefile.data.music.id);
+                $scope.currChar = savefile.data.character;
+                $scope.charName = savefile.data.character.name;
+                $scope.emotion = savefile.data.emotion;
+                $scope.currScene = savefile.data.currScene;
+                $scope.lines = savefile.data.lines;
+                $scope.line = $scope.lines[savefile.data.position - 1];
+                sceneCounter = savefile.data.scenePosition;
+                $scope.background = savefile.data.background;
+                $scope.evidenceBox = savefile.data.evidenceBox;
+                $scope.activesrc = savefile.data.evidenceBoxSrc;
+                $scope.hiddenEvidence = savefile.data.evidence;
+                $scope.evidencePlaceholder = savefile.data.evidencePlaceholder;
+                $scope.music.loop = true;
+                $scope.music.play();
+                $scope.music.volume = 0.75;
+                $scope.isTalking = 'talking';
+                $scope.advanceText();
+
+                /*$scope.isProsecutor = false;
+                $scope.isDefense = false;
+                $scope.isWitness = false;
+                $scope.isPress = false;
+                $scope.allowForward = true;*/
+            });
+    };
     //Alters variables when the 'Press' button is clicked such that the textbox starts displaying the presstext.
     $scope.pressWitness = function() {
         var holdIt = ngAudio.load("../assets/audio/sfx/defenseholdit.wav");
@@ -438,63 +514,19 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     };
     //The data factory fetches all our JSON files with ajax requests, and then our variables are set up.
     DataFactory.initialize().then(function() {
-      $scope.scenes = ['tutorial', 'opening', 'examinationOne'];
-      $scope.evidence = DataFactory.evidenceList();
-
-      $http.get('/save')
-          .then(function(savefile){
-            console.log(savefile);
-            $scope.playAnimation = false;
-            if(savefile.data === '') {
-        $scope.music = ngAudio.load("../assets/audio/bgm/logic.mp3");
+        $scope.scenes = ['tutorial', 'opening', 'examinationOne'];
+        $scope.evidence = DataFactory.evidenceList();
+        $scope.playAnimation = false;
         $scope.currChar = DataFactory.getCharacter('tutorial');
-        $scope.currScene = DataFactory.getScene('tutorial');
-        $scope.lines =  $scope.currScene.lines;
-        $scope.background =  {
+        $scope.emotion = $scope.currChar.emotions.default;
+        $scope.isTalking = 'finished';
+        $scope.background = {
             'background-image': 'url(../assets/backgrounds/startbg.png)'
-          };
-            $scope.hiddenEvidence =  [];
-            $scope.evidencePlaceholder =  [];
-            var length = DataFactory.getEvidenceLength();
-            for (var i = 0; i < length; i++) {
-                $scope.hiddenEvidence.push(false);
-                $scope.evidencePlaceholder.push(true);
-            }
-        } else{
-              $scope.music = ngAudio.load(savefile.data.music.id);
-              $scope.currChar = savefile.data.character;
-              $scope.charName = savefile.data.character.name;
-              $scope.emotion = savefile.data.emotion;
-              $scope.currScene = savefile.data.currScene;
-              $scope.lines = savefile.data.lines;
-              $scope.line = $scope.lines[savefile.data.position - 1];
-              sceneCounter = savefile.data.scenePosition;
-              $scope.background = savefile.data.background;
-              $scope.hiddenEvidence = savefile.data.evidence;
-              $scope.evidencePlaceholder = savefile.data.evidencePlaceholder;
-
-
-            }
-
-
-        $scope.music.loop = true;
-        $scope.music.play();
-        $scope.music.volume = 0.75;
-        $scope.isTalking = 'talking';
-        $scope.advanceText();
-
-        /*$scope.isProsecutor = false;
-        $scope.isDefense = false;
-        $scope.isWitness = false;
-        $scope.isPress = false;
-        $scope.allowForward = true;*/
-
-
-
-        //Sets the # of evidence boxes to show in the evidence window.
-
-        console.log($scope.hiddenEvidence);
-        });
-    });
+        };
+        $scope.saveSelection = true;
+        $scope.allowForward = false;
+        $scope.allowBackward = false;
+      getSaves();
+            });
 
 }]);

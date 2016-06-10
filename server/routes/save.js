@@ -14,8 +14,29 @@ router.post('/', function(req, res) {
         res.sendStatus(201);
     });
 });
-router.get('/', function(req, res) {
-Save.findOne({}, function (err, savefile) {
+router.get('/all/', function(req, res){
+  Save.find({}, function (err, saves){
+    if (err) {
+      res.sendStatus(500);
+      console.log(err);
+      return;
+    }
+    console.log(saves);
+    res.send(saves);
+  });
+});
+
+router.delete('/:id', function(req, res) {
+  Save.findByIdAndRemove(req.params.id, function (err) {
+    if (err) {
+      res.sendStatus(500);
+      return;
+    }
+    res.sendStatus(201);
+});
+});
+router.get('/:id', function(req, res) {
+Save.findById(req.params.id, function (err, savefile) {
   if (err) {
     res.sendStatus(500);
     console.log(err);

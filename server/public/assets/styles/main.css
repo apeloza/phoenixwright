@@ -38,6 +38,7 @@ background-color: brown;
     z-index: 10;
     left: 75%;
 }
+
 .textbox {
   font-family: "Ace Attorney", sans-serif;
   width:100%;
@@ -225,4 +226,17 @@ width: 60%;
   border-width: 2px;
   border-style: outset;
   border-color: buttonface;
+}
+.saveselect {
+margin: auto;
+text-align: center;
+}
+.savebtn {
+  margin-left: 65px;
+}
+
+.delete{
+  background-color: brown;
+  color: white;
+  font-family: "Ace Attorney", sans-serif;
 }

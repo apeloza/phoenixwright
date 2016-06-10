@@ -11,6 +11,8 @@ evidencePlaceholder: {type: Array, required: true},
 background: {type: Object, required: true},
 character: {type: Object, required: true},
 emotion: {type: Object, required: true},
+evidenceBox: {type: Boolean},
+evidenceBoxSrc: {type: String},
 music: {type: Object},
 displayLine: {type: String}
 });

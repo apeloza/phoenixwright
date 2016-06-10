@@ -1,6 +1,7 @@
 <div class="container">
     <div class="casebtncontainer">
         <button class="evidencebtn" id="openev" ng-click="openEvidence()">Evidence</button>
+        <button class="evidencebtn" ng-click="saveGame()">Save</button>
         <a class="evidencebtn totitlebtn" href="#title" ng-click="toTitle()">Back To Title</a>
     </div>
 
@@ -38,7 +39,14 @@
             <img class="pointer" src="../assets/interfaceimages/pointer.gif" ng-click="advanceText()" ng-show="allowForward" />
             <img class="pointer-prev" src="../assets/interfaceimages/pointer.gif" ng-click="prevText()" ng-show="allowBackward" />
         </div>
-
+<div class="saveselect" ng-show = "saveSelection">
+  <h3>Save Selection</h3>
+  <div class="saves" ng-repeat="save in savesArray">
+    <button class="choicebtn savebtn" ng-click="loadSave(save._id)">{{save.displayLine}}</button>
+    <button class="delete" ng-click="deleteSave(save._id)">Delete?</button>
+  </div>
+  <button class="choicebtn" ng-click="newGame()">New Game</button>
+</div>
         <img class="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}" ng-hide="evidencePanel" />
         <img class="overlay" ng-show="playAnimation" ng-src="{{animationsrc}}" />
         <img class="defensebench" src="../assets/sprites/benches/defensebench.gif" ng-show="isDefense" />

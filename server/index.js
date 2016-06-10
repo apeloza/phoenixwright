@@ -17,7 +17,7 @@ var file = req.params[0] || 'views/index.html';
 res.sendFile(path.join(__dirname, "./public", file));
 });
 
-var databaseURI = 'mongodb://localhost:27017/mu';
+var databaseURI = 'mongodb://apeloza:anthony@ds013004.mlab.com:13004/soloprojectsaves';
 mongoose.connect(databaseURI);
 mongoose.connection.on('connected', function () {
   console.log('Mongoose connection open ', databaseURI);
