@@ -13,7 +13,8 @@ h1, h2, a {
 }
 
 .container{
-  background-color: black;
+  background-image: url(../backgrounds/uibackground.jpg);
+  background-size: contain;
 }
 .evidencedisplay{
   position: fixed;
@@ -23,7 +24,7 @@ h1, h2, a {
 }
 .evidencebtn {
 
-width: 100%;
+width: 50%;
 height: 80px;
 font-size: 20px;
 font-family: "Ace Attorney", sans-serif;
@@ -209,6 +210,7 @@ border-color: buttonface;
 .casebtncontainer {
   float: left;
   position: fixed;
+  text-align: left;
 }
 .choicebox{
   position: fixed;

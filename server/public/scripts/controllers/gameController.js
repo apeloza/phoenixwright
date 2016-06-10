@@ -392,6 +392,34 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
               $scope.savesArray = saves.data;
           });
     }
+    $scope.loadGame = function() {
+var confirmation = confirm("Are you sure? Current progress will be lost!");
+if (confirmation){
+  $scope.saveMenu();
+}
+    };
+    $scope.saveMenu = function() {
+
+      if($scope.music){
+        $scope.music.pause();
+      }
+
+      $scope.scenes = ['tutorial', 'opening', 'examinationOne'];
+      $scope.evidence = DataFactory.evidenceList();
+      $scope.playAnimation = false;
+      $scope.currChar = DataFactory.getCharacter('tutorial');
+      $scope.emotion = $scope.currChar.emotions.default;
+      $scope.isTalking = 'finished';
+      $scope.background = {
+          'background-image': 'url(../assets/backgrounds/startbg.png)'
+      };
+      $scope.saveSelection = true;
+      $scope.allowForward = false;
+      $scope.allowBackward = false;
+      $scope.displayLine = '';
+      $scope.charName = '';
+      getSaves();
+    };
     $scope.saveGame = function() {
       getSaves();
       if($scope.savesArray.length >=3){
@@ -514,19 +542,7 @@ console.log('Saved!');
     };
     //The data factory fetches all our JSON files with ajax requests, and then our variables are set up.
     DataFactory.initialize().then(function() {
-        $scope.scenes = ['tutorial', 'opening', 'examinationOne'];
-        $scope.evidence = DataFactory.evidenceList();
-        $scope.playAnimation = false;
-        $scope.currChar = DataFactory.getCharacter('tutorial');
-        $scope.emotion = $scope.currChar.emotions.default;
-        $scope.isTalking = 'finished';
-        $scope.background = {
-            'background-image': 'url(../assets/backgrounds/startbg.png)'
-        };
-        $scope.saveSelection = true;
-        $scope.allowForward = false;
-        $scope.allowBackward = false;
-      getSaves();
+$scope.saveMenu();
             });
 
 }]);
