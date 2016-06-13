@@ -29,7 +29,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkArrows();
         checkAnim();
         checkTalking();
-        blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
         checkSFX();
         $scope.typeText();
     };
@@ -54,7 +53,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         $scope.talking = true;
         $scope.isTalking = 'talking';
 
-        blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
+      checkSFX();
         $scope.typeText();
     };
 
@@ -86,9 +85,13 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             }
             sfx.play();
         }
-        if ($scope.line.blip) {
+        if ($scope.line.blip == "none") {
+          return;
+        } else if($scope.line.blip) {
             blip = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.blip);
-        }
+        } else {
+        blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
+      }
     }
     //Checks to see if the particular line wants to display an evidence box in the top left.
     function checkEvidenceBox(line) {
@@ -417,7 +420,6 @@ if (confirmation){
 }
     };
     $scope.saveMenu = function() {
-
       if($scope.music){
         $scope.music.pause();
       }
