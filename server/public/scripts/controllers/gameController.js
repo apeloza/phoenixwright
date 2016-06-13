@@ -53,7 +53,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         $scope.talking = true;
         $scope.isTalking = 'talking';
 
-      checkSFX();
+        checkSFX();
         $scope.typeText();
     };
 
@@ -63,6 +63,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.isTalking = 'finished';
         }
     }
+
     //Adds evidence to the court record if the JSON file requests it.
     function checkEvidenceChange() {
         if ($scope.line.showEvidence) {
@@ -78,20 +79,20 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     function checkSFX() {
         if ($scope.line.sfx) {
             var sfx = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.sfx);
-            if($scope.line.sfxloop){
-              sfx.loop = true;
+            if ($scope.line.sfxloop) {
+                sfx.loop = true;
             } else {
-              sfx.loop = false;
+                sfx.loop = false;
             }
             sfx.play();
         }
         if ($scope.line.blip == "none") {
-          return;
-        } else if($scope.line.blip) {
+            return;
+        } else if ($scope.line.blip) {
             blip = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.blip);
         } else {
-        blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
-      }
+            blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
+        }
     }
     //Checks to see if the particular line wants to display an evidence box in the top left.
     function checkEvidenceBox(line) {
@@ -104,24 +105,35 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.evidenceBox = true;
         }
     }
+
     //Governs behaviour regarding what is displayed 'next' in the textbox, should a series of lines end.
     function checkScene() {
+
+      //This checks to see if the user made an incorrect choice at a choice menu.
         if (nextIndex == $scope.lines.length && $scope.incorrectChoice === true) {
             $scope.currScene = $scope.choiceScene;
             $scope.lines = $scope.currScene.lines;
             nextIndex = $scope.choiceLoc;
             $scope.incorrectChoice = false;
         }
-        if (nextIndex == $scope.lines.length && $scope.isPress === true || nextIndex == $scope.lines.length && $scope.incorrectEvidence === true) {
+
+        //This checks to see if the user presented incorrect evidence, or that they are in a press statement (it returns them back to the cross-examination)
+        else if (nextIndex == $scope.lines.length && $scope.isPress === true || nextIndex == $scope.lines.length && $scope.incorrectEvidence === true) {
             $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
             $scope.lines = $scope.currScene.lines;
             nextIndex = $scope.pressLoc;
             $scope.isPress = false;
             $scope.isExamination = true;
             $scope.incorrectEvidence = false;
-        } else if (nextIndex == $scope.lines.length && $scope.isExamination === true) {
+        }
+
+        //This checks to see if the user has reached the end of a cross examination to loop them back to the start
+        else if (nextIndex == $scope.lines.length && $scope.isExamination === true) {
             nextIndex = 1;
-        } else if (nextIndex == $scope.lines.length) {
+        }
+
+        //This checks to see if you've reached the end of a normal, run of the mill scene.
+        else if (nextIndex == $scope.lines.length) {
             sceneCounter++;
             $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
             $scope.lines = $scope.currScene.lines;
@@ -148,6 +160,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             }
         }
     }
+
     //Checks to see what bench sprites might need to be displayed on the screen, based on the background.
     function checkBenches() {
         if ($scope.bgName == 'defenseempty.png') {
@@ -187,6 +200,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
 
         }
     }
+
     //If there is a new sprite, change the sprite. Should always change when character changes.
     function checkSprite() {
         if ($scope.line.emotion) {
@@ -194,38 +208,40 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         }
 
     }
+
     //Checks to see if there is a new character, and also changes the name displayed above the textbox to match it.
     function checkCharacter() {
         if ($scope.line.character) {
             $scope.currChar = DataFactory.getCharacter($scope.line.character);
             $scope.charName = $scope.currChar.name;
         }
-        if($scope.line.name){
-          $scope.charName = $scope.line.name;
+        if ($scope.line.name) {
+            $scope.charName = $scope.line.name;
         }
 
         //If the judge is the active character, move the portrait up so that the judge sits properly.
         var characterPortrait = document.getElementById('portrait');
-        if($scope.currChar.name == 'Judge'){
-characterPortrait.style.height = '514px';
+        if ($scope.currChar.name == 'Judge') {
+            characterPortrait.style.height = '514px';
         } else {
-        characterPortrait.style.height = '540px';
+            characterPortrait.style.height = '540px';
+        }
     }
-  }
 
     //Checks to see if there is a new background, and after setting it checks to see if the new background requires additional sprites.
     function checkBackground() {
         if ($scope.line.background) {
-          $scope.bgName = $scope.line.background;
+            $scope.bgName = $scope.line.background;
             $scope.background = {
                 'background-image': 'url(../assets/backgrounds/' + $scope.line.background
             };
 
 
-            }
-            checkBenches();
         }
+        checkBenches();
+    }
 
+//Plays animations on the center of the screen (e.g. Objection!), and then delays by a specified amount before hiding it
     function checkAnim() {
         if ($scope.line.anim) {
             $scope.playAnimation = true;
@@ -235,7 +251,8 @@ characterPortrait.style.height = '514px';
             $timeout(stopAnimation, $scope.line.anim.time);
         }
     }
-    //Checks to see if the text color should be changed. Testimonies have special properties that are also enabled this way.
+
+    //Checks to see if the text color should be changed. Some have special properties that are also enabled this way.
     function checkTextType() {
         if ($scope.line.type == 'intro') {
             $scope.texttype = {
@@ -309,6 +326,8 @@ characterPortrait.style.height = '514px';
             checkChoices();
         }
     };
+
+    //Opens the evidence window while saving information needed when the window is closed.
     $scope.openEvidence = function() {
         $scope.evidencePanel = true;
         $scope.evidenceLoc = $scope.lines.indexOf($scope.line);
@@ -326,18 +345,14 @@ characterPortrait.style.height = '514px';
         $scope.charName = '';
         open.play();
     };
-    $scope.playAnimation = true;
-    $scope.animationsrc = '../assets/interfaceimages/xexamine.gif';
-    $scope.allowForward = false;
-    $scope.allowBackward = false;
-    $timeout(stopAnimation, 2500);
 
-
+    //Stops the currently playing animation by hiding it and removing the source.
     function stopAnimation() {
         $scope.animationsrc = '';
         $scope.playAnimation = false;
         checkArrows();
     }
+
     //The evidence window is hidden, and the text and other images are re-set to where the player left off.
     $scope.closeEvidence = function() {
         $scope.evidencePanel = false;
@@ -385,6 +400,8 @@ characterPortrait.style.height = '514px';
         objection.play();
         $scope.activesrc = $scope.currEvidence.image;
         $scope.evidenceBox = true;
+
+        //Handles correct evidence
         if ($scope.line.correctevidence == $scope.currEvidence.id) {
             $scope.incorrectEvidence = false;
             $scope.closeEvidence();
@@ -395,6 +412,8 @@ characterPortrait.style.height = '514px';
             $scope.allowBackward = false;
             $scope.texttype = 'default';
             $scope.advanceText();
+
+            //handles incorrect evidence
         } else {
             $scope.pressLoc = $scope.lines.indexOf($scope.line);
             $scope.currScene = $scope.currScene.lines[$scope.lines.indexOf($scope.line)].incorrectlines;
@@ -407,68 +426,79 @@ characterPortrait.style.height = '514px';
             $scope.advanceText();
         }
     };
+
+//fetches all saves from the database and stores them locally
     function getSaves() {
-      $http.get('/save/all')
-          .then(function(saves) {
-              $scope.savesArray = saves.data;
-          });
+        $http.get('/save/all')
+            .then(function(saves) {
+                $scope.savesArray = saves.data;
+            });
     }
+
+    //Brings the user to the load menu after a warning about losing progress.
     $scope.loadGame = function() {
-var confirmation = confirm("Are you sure? Current progress will be lost!");
-if (confirmation){
-  $scope.saveMenu();
-}
+        var confirmation = confirm("Are you sure? Current progress will be lost!");
+        if (confirmation) {
+            $scope.saveMenu();
+        }
     };
+
+    //Displays the menu of saves.
     $scope.saveMenu = function() {
-      if($scope.music){
-        $scope.music.pause();
-      }
+        if ($scope.music) {
+            $scope.music.pause();
+        }
 
-      $scope.scenes = ['tutorial', 'opening', 'courtroomIntro', 'testimonyOne', 'examinationOne', 'interludeOne'];
-      $scope.evidence = DataFactory.evidenceList();
-      $scope.playAnimation = false;
-      $scope.currChar = DataFactory.getCharacter('noChar');
-      $scope.emotion = $scope.currChar.emotions.default;
-      $scope.isTalking = 'finished';
-      $scope.background = {
-          'background-image': 'url(../assets/backgrounds/startbg.png)'
-      };
-      $scope.saveSelection = true;
-      $scope.allowForward = false;
-      $scope.allowBackward = false;
-      $scope.displayLine = '';
-      $scope.charName = '';
-      $scope.isProsecutor = false;
-      $scope.isDefense = false;
-      $scope.isWitness = false;
-            getSaves();
+        $scope.scenes = ['tutorial', 'opening', 'courtroomIntro', 'testimonyOne', 'examinationOne', 'interludeOne'];
+        $scope.evidence = DataFactory.evidenceList();
+        $scope.playAnimation = false;
+        $scope.currChar = DataFactory.getCharacter('noChar');
+        $scope.emotion = $scope.currChar.emotions.default;
+        $scope.isTalking = 'finished';
+        $scope.background = {
+            'background-image': 'url(../assets/backgrounds/startbg.png)'
+        };
+        $scope.saveSelection = true;
+        $scope.allowForward = false;
+        $scope.allowBackward = false;
+        $scope.displayLine = '';
+        $scope.charName = '';
+        $scope.isProsecutor = false;
+        $scope.isDefense = false;
+        $scope.isWitness = false;
+        getSaves();
     };
+
+    //Saves the game. If the user has too many saves, the save fails and the user is told to delete saves.
     $scope.saveGame = function() {
-      getSaves();
-      if($scope.savesArray.length >=3){
-        alert("You have too many saves! Delete some first.");
-        return;
-      }
-      $scope.progressSave = {
-          currScene: $scope.currScene,
-          lines: $scope.lines,
-          position: $scope.lines.indexOf($scope.line),
-          scenePosition: sceneCounter,
-          evidence: $scope.hiddenEvidence,
-          evidencePlaceholder: $scope.evidencePlaceholder,
-          background: $scope.background,
-          character: $scope.currChar,
-          emotion: $scope.emotion,
-          evidenceBox:   $scope.evidenceBox,
-          evidenceBoxSrc: $scope.activesrc,
-          music: $scope.music,
-          displayLine: $scope.displayLine
+        getSaves();
+        if ($scope.savesArray.length >= 3) {
+            alert("You have too many saves! Delete some first.");
+            return;
+        }
 
-      };
-      $http.post('/save', $scope.progressSave)
-          .then(function() {
-          });
+        //The save object that is sent to the server
+        $scope.progressSave = {
+            currScene: $scope.currScene,
+            lines: $scope.lines,
+            position: $scope.lines.indexOf($scope.line),
+            scenePosition: sceneCounter,
+            evidence: $scope.hiddenEvidence,
+            evidencePlaceholder: $scope.evidencePlaceholder,
+            background: $scope.background,
+            character: $scope.currChar,
+            emotion: $scope.emotion,
+            evidenceBox: $scope.evidenceBox,
+            evidenceBoxSrc: $scope.activesrc,
+            music: $scope.music,
+            displayLine: $scope.displayLine
+
+        };
+        $http.post('/save', $scope.progressSave)
+            .then(function() {});
     };
+
+    //This function is fired when the user does not load a save. It sets us at the start of the json file and prepares the game.
     $scope.newGame = function() {
         $scope.saveSelection = false;
         $scope.music = ngAudio.load("../assets/audio/bgm/logic.mp3");
@@ -491,12 +521,16 @@ if (confirmation){
         $scope.isTalking = 'talking';
         $scope.advanceText();
     };
+
+    //Deletes a save from the database
     $scope.deleteSave = function(id) {
         $http.delete('/save/' + id)
             .then(function() {
                 getSaves();
-                    });
+            });
     };
+
+    //Loads the game by bringing in a specified save object and then setting game variables based on the object.
     $scope.loadSave = function(id) {
         $scope.saveSelection = false;
         $http.get('/save/' + id)
@@ -519,14 +553,9 @@ if (confirmation){
                 $scope.music.volume = 0.75;
                 $scope.isTalking = 'talking';
                 $scope.advanceText();
-
-                /*$scope.isProsecutor = false;
-                $scope.isDefense = false;
-                $scope.isWitness = false;
-                $scope.isPress = false;
-                $scope.allowForward = true;*/
             });
     };
+
     //Alters variables when the 'Press' button is clicked such that the textbox starts displaying the presstext.
     $scope.pressWitness = function() {
         var holdIt = ngAudio.load("../assets/audio/sfx/defenseholdit.wav");
@@ -548,6 +577,8 @@ if (confirmation){
         $scope.allowBackward = false;
         $scope.advanceText();
     };
+
+    //Fires after the user clicks on one of the choice buttons.
     $scope.madeChoice = function(choice) {
         $scope.choiceLoc = $scope.lines.indexOf($scope.line);
         $scope.clickedChoice = true;
@@ -559,9 +590,10 @@ if (confirmation){
         }
         $scope.advanceText();
     };
+     
     //The data factory fetches all our JSON files with ajax requests, and then our variables are set up.
     DataFactory.initialize().then(function() {
-$scope.saveMenu();
-            });
+        $scope.saveMenu();
+    });
 
 }]);
