@@ -19,15 +19,15 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkSprite();
         checkBackground();
         checkMusic();
-        checkTextType();
         checkEvidenceChange();
         checkEvidenceBox();
         checkPress();
-        checkArrows();
-        checkAnim();
         $scope.displayLine = '';
         $scope.talking = true;
         $scope.isTalking = 'talking';
+        checkTextType();
+        checkArrows();
+        checkAnim();
         checkTalking();
         blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
         checkSFX();
@@ -79,6 +79,11 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     function checkSFX() {
         if ($scope.line.sfx) {
             var sfx = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.sfx);
+            if($scope.line.sfxloop){
+              sfx.loop = true;
+            } else {
+              sfx.loop = false;
+            }
             sfx.play();
         }
         if ($scope.line.blip) {
@@ -108,7 +113,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
             $scope.lines = $scope.currScene.lines;
             nextIndex = $scope.pressLoc;
-            console.log(nextIndex);
             $scope.isPress = false;
             $scope.isExamination = true;
             $scope.incorrectEvidence = false;
@@ -143,16 +147,16 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     }
     //Checks to see what bench sprites might need to be displayed on the screen, based on the background.
     function checkBenches() {
-        if ($scope.line.background == 'defenseempty') {
+        if ($scope.bgName == 'defenseempty.png') {
             $scope.isDefense = true;
             $scope.isProsecutor = false;
             $scope.isWitness = false;
-        } else if ($scope.line.background == 'witnessempty') {
+        } else if ($scope.bgName == 'witnessempty.png') {
             $scope.isWitness = true;
             $scope.isDefense = false;
             $scope.isProsecutor = false;
 
-        } else if ($scope.line.background == 'prosecutorempty') {
+        } else if ($scope.bgName == 'prosecutorempty.png') {
             $scope.isProsecutor = true;
             $scope.isDefense = false;
             $scope.isWitness = false;
@@ -193,17 +197,31 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.currChar = DataFactory.getCharacter($scope.line.character);
             $scope.charName = $scope.currChar.name;
         }
+        if($scope.line.name){
+          $scope.charName = $scope.line.name;
+        }
+
+        //If the judge is the active character, move the portrait up so that the judge sits properly.
+        var characterPortrait = document.getElementById('portrait');
+        if($scope.currChar.name == 'Judge'){
+characterPortrait.style.height = '514px';
+        } else {
+        characterPortrait.style.height = '540px';
     }
+  }
 
     //Checks to see if there is a new background, and after setting it checks to see if the new background requires additional sprites.
     function checkBackground() {
         if ($scope.line.background) {
+          $scope.bgName = $scope.line.background;
             $scope.background = {
-                'background-image': 'url(../assets/backgrounds/' + $scope.line.background + '.png'
+                'background-image': 'url(../assets/backgrounds/' + $scope.line.background
             };
+
+
+            }
             checkBenches();
         }
-    }
 
     function checkAnim() {
         if ($scope.line.anim) {
@@ -222,6 +240,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
                 'text-align': 'center'
             };
             $scope.charName = '';
+            $scope.isTalking = 'finished';
             $scope.allowPress = false;
             $scope.allowBackward = false;
         }
@@ -238,6 +257,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.texttype = {
                 'color': 'dodgerblue'
             };
+            $scope.isTalking = 'finished';
             $scope.isExamination = false;
             $scope.allowPress = false;
         } else if ($scope.line.type == 'default') {
@@ -289,7 +309,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     $scope.openEvidence = function() {
         $scope.evidencePanel = true;
         $scope.evidenceLoc = $scope.lines.indexOf($scope.line);
-        console.log($scope.evidenceLoc);
         $scope.isProsecutor = false;
         $scope.isDefense = false;
         $scope.isWitness = false;
@@ -388,7 +407,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
     function getSaves() {
       $http.get('/save/all')
           .then(function(saves) {
-              console.log(saves);
               $scope.savesArray = saves.data;
           });
     }
@@ -404,10 +422,10 @@ if (confirmation){
         $scope.music.pause();
       }
 
-      $scope.scenes = ['tutorial', 'opening', 'examinationOne'];
+      $scope.scenes = ['tutorial', 'opening', 'courtroomIntro', 'testimonyOne', 'examinationOne', 'interludeOne'];
       $scope.evidence = DataFactory.evidenceList();
       $scope.playAnimation = false;
-      $scope.currChar = DataFactory.getCharacter('tutorial');
+      $scope.currChar = DataFactory.getCharacter('noChar');
       $scope.emotion = $scope.currChar.emotions.default;
       $scope.isTalking = 'finished';
       $scope.background = {
@@ -418,7 +436,10 @@ if (confirmation){
       $scope.allowBackward = false;
       $scope.displayLine = '';
       $scope.charName = '';
-      getSaves();
+      $scope.isProsecutor = false;
+      $scope.isDefense = false;
+      $scope.isWitness = false;
+            getSaves();
     };
     $scope.saveGame = function() {
       getSaves();
@@ -444,13 +465,12 @@ if (confirmation){
       };
       $http.post('/save', $scope.progressSave)
           .then(function() {
-console.log('Saved!');
           });
     };
     $scope.newGame = function() {
         $scope.saveSelection = false;
         $scope.music = ngAudio.load("../assets/audio/bgm/logic.mp3");
-        $scope.currChar = DataFactory.getCharacter('tutorial');
+        $scope.currChar = DataFactory.getCharacter('noChar');
         $scope.currScene = DataFactory.getScene('tutorial');
         $scope.lines = $scope.currScene.lines;
         $scope.background = {
@@ -472,7 +492,6 @@ console.log('Saved!');
     $scope.deleteSave = function(id) {
         $http.delete('/save/' + id)
             .then(function() {
-                console.log('Deleted!');
                 getSaves();
                     });
     };
@@ -480,7 +499,6 @@ console.log('Saved!');
         $scope.saveSelection = false;
         $http.get('/save/' + id)
             .then(function(savefile) {
-                console.log(savefile);
                 $scope.music = ngAudio.load(savefile.data.music.id);
                 $scope.currChar = savefile.data.character;
                 $scope.charName = savefile.data.character.name;
@@ -514,8 +532,7 @@ console.log('Saved!');
         $scope.playAnimation = true;
         $scope.animationsrc = "../assets/interfaceimages/holdit.gif";
         $timeout(stopAnimation, 500);
-        console.log($scope.lines.indexOf($scope.line));
-        console.log($scope.lines.length);
+
         if ($scope.lines.indexOf($scope.line) + 1 == $scope.lines.length) {
             $scope.pressLoc = 0;
         } else {

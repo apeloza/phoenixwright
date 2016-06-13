@@ -48,7 +48,7 @@
   </div>
   <button class="choicebtn" ng-click="newGame()">New Game</button>
 </div>
-        <img class="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}" ng-hide="evidencePanel" />
+        <img class="portrait" id="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}" ng-hide="evidencePanel" />
         <img class="overlay" ng-show="playAnimation" ng-src="{{animationsrc}}" />
         <img class="defensebench" src="../assets/sprites/benches/defensebench.gif" ng-show="isDefense" />
         <img class="prosecutionbench" src="../assets/sprites/benches/prosecutionbench.gif" ng-show="isProsecutor" />

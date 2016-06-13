@@ -17,8 +17,22 @@
     "name":"Autopsy Report",
     "description":"Details about the victim, Bracket.",
     "image":"../assets/evidence/autopsyreport.png",
-    "info":"The victim died at precisely 2:00am Monday morning. The cause of death is unclear. There are no signs of blunt force trauma.",
+    "info":"The victim died at precisely 2:00am Monday morning. The cause of death is unclear, but thought to be a stabbing.",
     "id": "autopsyreport"
+  },
+  "teacupshards": {
+    "name": "Shattered Teacup",
+    "description": "A teacup that was shattered at the scene of the crime.",
+    "imagE": "../assets/evidence/glassshards.png",
+    "info": "The shards still have dregs of tea on them. I wonder what happened . . .",
+    "id": "teacupshards"
+  },
+  "victim": {
+    "name": "Bracket",
+    "description": "The victim in this case.",
+    "image": "../assets/evidence/bracket.png",
+    "info": "The victim in this case. Has some sort of relationship to Java. A rivalry ...?",
+    "id": "victim"
   }
 
 }

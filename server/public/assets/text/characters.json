@@ -3,7 +3,7 @@
     "name": "Ruby",
     "defaultSound": "blipfemale",
     "emotions": {
-      "default": {
+      "neutral": {
         "talking": "witnessOne/witnessOne_neutral_speaking.gif",
         "finished": "ruby/ruby_neutral.gif"
       },
@@ -29,7 +29,7 @@
     "name": "Haskell",
     "defaultSound": "blipmale",
     "emotions": {
-      "default": {
+      "neutral": {
         "talking": "witnessTwo/witnessTwo_speaking.gif"
       },
       "none": {
@@ -42,7 +42,7 @@
     "name": "Java",
     "defaultSound": "blipmale",
     "emotions": {
-      "default": {
+      "neutral": {
         "talking": "witnessThree/witnessThree_neutral_speaking.gif",
         "finished": "witnessThree/witnessThree_neutral.png"
       },
@@ -64,7 +64,7 @@
     "name": "Linter",
     "defaultSound": "blipmale",
     "emotions": {
-      "default": {
+      "neutral": {
         "talking":"detective/detective_neutral_speaking.gif",
         "finished": "detective/detective_neutral.gif"
       },
@@ -83,6 +83,10 @@
       "confused": {
         "talking": "detective/detective_confused.gif",
         "finished": "detective/detective_confused.gif"
+      },
+      "sad": {
+        "talking": "detective/detective_sad_speaking.gif",
+        "finished": "detective/detective_sad.gif"
       },
       "pumped": {
         "talking": "detective/detective_pumped_speaking.gif",
@@ -106,7 +110,7 @@
       "name": "Perl",
       "defaultSound": "blipfemale",
       "emotions": {
-        "default": {
+        "neutral": {
           "talking":"defense/defense_neutral_speaking.gif",
           "finished":"defense/defense_neutral.gif"
         },
@@ -143,7 +147,7 @@
           "finished":"defense/defense_sweating.gif"
         },
         "thinking": {
-          "talking":"defense/defense_thinking_talking.gif",
+          "talking":"defense/defense_thinking_speaking.gif",
           "finished":"defense/defense_thinking.gif"
         },
         "none": {
@@ -209,7 +213,7 @@
           "talking":"prosecutor/prosecutor_handsondesk_speaking.gif",
           "finished":"prosecutor/prosecutor_handsondesk.gif"
         },
-        "default": {
+        "neutral": {
           "talking":"prosecutor/prosecutor_neutral_speaking.gif",
           "finished":"prosecutor/prosecutor_neutral.gif"
         },
@@ -247,14 +251,14 @@
       "name": "Aesop",
       "defaultSound": "blipfemale",
       "emotions": {
-        "default": {
+        "neutral": {
           "talking":"nosprite.png",
           "finished":"nosprite.png"
         }
       }
 
     },
-    "tutorial": {
+    "noChar": {
       "defaultSound": "typewriter",
       "emotions": {
         "default": {
