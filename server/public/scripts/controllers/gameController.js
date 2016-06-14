@@ -21,11 +21,12 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkMusic();
         checkEvidenceChange();
         checkEvidenceBox();
-        checkPress();
         $scope.displayLine = '';
         $scope.talking = true;
         $scope.isTalking = 'talking';
         checkTextType();
+        checkPress();
+        checkPressFlags();
         checkArrows();
         checkAnim();
         checkTalking();
@@ -47,12 +48,14 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkCharacter();
         checkSprite();
         checkBackground();
-        checkTextType();
-        checkArrows();
+        checkEvidenceBox();
         $scope.displayLine = '';
         $scope.talking = true;
         $scope.isTalking = 'talking';
-
+        checkTextType();
+        checkPress();
+        checkArrows();
+checkTalking();
         checkSFX();
         $scope.typeText();
     };
@@ -117,6 +120,14 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.incorrectChoice = false;
         }
 
+        //This checks to see if the player can advance from the testimony because they pressed for enough information.
+        else if(nextIndex == $scope.lines.length && $scope.pressCheckClear === true){
+          sceneCounter++;
+          $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
+          $scope.lines = $scope.currScene.lines;
+          nextIndex = 0;
+        }
+
         //This checks to see if the user presented incorrect evidence, or that they are in a press statement (it returns them back to the cross-examination)
         else if (nextIndex == $scope.lines.length && $scope.isPress === true || nextIndex == $scope.lines.length && $scope.incorrectEvidence === true) {
             $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
@@ -163,16 +174,16 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
 
     //Checks to see what bench sprites might need to be displayed on the screen, based on the background.
     function checkBenches() {
-        if ($scope.bgName == 'defenseempty.png') {
+        if ($scope.background.name == 'defenseempty.png') {
             $scope.isDefense = true;
             $scope.isProsecutor = false;
             $scope.isWitness = false;
-        } else if ($scope.bgName == 'witnessempty.png') {
+        } else if ($scope.background.name == 'witnessempty.png') {
             $scope.isWitness = true;
             $scope.isDefense = false;
             $scope.isProsecutor = false;
 
-        } else if ($scope.bgName == 'prosecutorempty.png') {
+        } else if ($scope.background.name == 'prosecutorempty.png') {
             $scope.isProsecutor = true;
             $scope.isDefense = false;
             $scope.isWitness = false;
@@ -233,7 +244,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         if ($scope.line.background) {
             $scope.bgName = $scope.line.background;
             $scope.background = {
-                'background-image': 'url(../assets/backgrounds/' + $scope.line.background
+                'background-image': 'url(../assets/backgrounds/' + $scope.line.background,
+                'name': $scope.line.background
             };
 
 
@@ -251,13 +263,37 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $timeout(stopAnimation, $scope.line.anim.time);
         }
     }
-
+function checkPressFlags(){
+  if($scope.line.pressAdd){
+    console.log("Fired checkFlags");
+    var oldFlag = false;
+    for (i = 0; i < $scope.pressFlagArray; i++){
+      if($scope.line.pressAdd == $scope.pressFlagArray[i]){
+        oldFlag = true;
+      }
+    }
+    if(oldFlag === false){
+      $scope.pressFlagArray.push($scope.line.pressAdd);
+      console.log($scope.pressFlagArray);
+    }
+  }
+  if ($scope.line.pressReq){
+    if($scope.line.pressReq == $scope.pressFlagArray.length){
+      console.log("Finished pressing!");
+      $scope.pressCheckClear = true;
+      $scope.pressFlagArray = [];
+    } else {
+      console.log("Did not finish pressing");
+      $scope.pressCheckClear = false;
+    }
+  }
+}
     //Checks to see if the text color should be changed. Some have special properties that are also enabled this way.
     function checkTextType() {
         if ($scope.line.type == 'intro') {
             $scope.texttype = {
                 'color': 'green',
-                'text-align': 'center'
+                'text-align': 'center',
             };
             $scope.charName = '';
             $scope.isTalking = 'finished';
@@ -449,7 +485,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
             $scope.music.pause();
         }
 
-        $scope.scenes = ['tutorial', 'opening', 'courtroomIntro', 'testimonyOne', 'examinationOne', 'interludeOne'];
+        $scope.scenes = ['tutorial', 'opening', 'courtroomIntro', 'testimonyOne', 'examinationOne', 'interludeOne', 'testimonyTwo', 'examinationTwo', 'interludeTwo'];
         $scope.evidence = DataFactory.evidenceList();
         $scope.playAnimation = false;
         $scope.currChar = DataFactory.getCharacter('noChar');
@@ -466,13 +502,14 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         $scope.isProsecutor = false;
         $scope.isDefense = false;
         $scope.isWitness = false;
+        $scope.pressFlagArray = [];
         getSaves();
     };
 
     //Saves the game. If the user has too many saves, the save fails and the user is told to delete saves.
     $scope.saveGame = function() {
         getSaves();
-        if ($scope.savesArray.length >= 3) {
+        if ($scope.savesArray.length >= 4) {
             alert("You have too many saves! Delete some first.");
             return;
         }
@@ -544,6 +581,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
                 $scope.line = $scope.lines[savefile.data.position - 1];
                 sceneCounter = savefile.data.scenePosition;
                 $scope.background = savefile.data.background;
+                console.log($scope.background);
+                                checkBenches();
                 $scope.evidenceBox = savefile.data.evidenceBox;
                 $scope.activesrc = savefile.data.evidenceBoxSrc;
                 $scope.hiddenEvidence = savefile.data.evidence;
@@ -558,7 +597,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
 
     //Alters variables when the 'Press' button is clicked such that the textbox starts displaying the presstext.
     $scope.pressWitness = function() {
-        var holdIt = ngAudio.load("../assets/audio/sfx/defenseholdit.wav");
+        var holdIt = ngAudio.load("../assets/audio/sfx/sfx-defenseholdit.wav");
         holdIt.play();
         $scope.playAnimation = true;
         $scope.animationsrc = "../assets/interfaceimages/holdit.gif";
@@ -590,7 +629,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         }
         $scope.advanceText();
     };
-     
+
     //The data factory fetches all our JSON files with ajax requests, and then our variables are set up.
     DataFactory.initialize().then(function() {
         $scope.saveMenu();

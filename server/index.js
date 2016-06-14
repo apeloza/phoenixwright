@@ -3,12 +3,14 @@ var app = express();
 var bodyParser = require('body-parser');
 var path = require('path');
 var mongoose = require('mongoose');
-var game = require('./routes/game');
+var caseOne = require('./routes/caseone');
+var caseTwo = require('./routes/casetwo');
 var save = require('./routes/save');
 app.set('port', (process.env.PORT || 3000));
 app.use(bodyParser.json());
 
-app.use('/game', game);
+app.use('/case1', caseOne);
+app.use('/case2', caseTwo);
 app.use('/save', save);
 
 app.get('/*', function(req, res) {

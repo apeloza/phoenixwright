@@ -2,4 +2,9 @@ app.controller('TitleController', ['$scope', '$http', '$timeout', 'ngAudio', 'Da
   $scope.background = {
       'background-image': 'url(../assets/backgrounds/startbg.png)'
   };
+
+  $scope.clickCase = function(caseNum){
+    DataFactory.setCaseNum(caseNum);
+  };
+  
 }]);

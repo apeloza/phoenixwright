@@ -5,9 +5,14 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
     var characters;
     var scenes;
     var evidence;
+    var casenum;
+
+function setCaseNum(clickednum){
+casenum = clickednum;
+}
 
     function getChars() {
-        var promise = $http.get('/game/characters').then(function(response) {
+        var promise = $http.get('/case' + casenum+ '/characters').then(function(response) {
             console.log('Async data returned: ', response.data);
             characters = response.data;
         });
@@ -15,7 +20,7 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
     }
 
     function getScenes() {
-        var promise = $http.get('/game/scenes').then(function(response) {
+        var promise = $http.get('/case' + casenum +'/scenes').then(function(response) {
             console.log('Async data returned: ', response.data);
             scenes = response.data;
         });
@@ -33,8 +38,9 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
     function scenesArray() {
         return scenes;
     }
-    function evidenceList(){
-      return evidence;
+
+    function evidenceList() {
+        return evidence;
     }
 
     function getEvidenceItem(name) {
@@ -49,20 +55,21 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
 
 
     function getEvidence() {
-        var promise = $http.get('/game/evidence').then(function(response) {
+        var promise = $http.get('/case' + casenum + '/evidence').then(function(response) {
             console.log('Async data returned: ', response.data);
             evidence = response.data;
         });
         return promise;
     }
+
     function getEvidenceLength() {
-      var length = 0;
-    for( var key in evidence ) {
-        if( evidence.hasOwnProperty(key) ) {
-            length++;
+        var length = 0;
+        for (var key in evidence) {
+            if (evidence.hasOwnProperty(key)) {
+                length++;
+            }
         }
-    }
-    return length;
+        return length;
     }
 
 
@@ -75,7 +82,8 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
         initialize: initialize,
         scenesArray: scenesArray,
         getEvidenceLength: getEvidenceLength,
-        evidenceList: evidenceList
+        evidenceList: evidenceList,
+        setCaseNum: setCaseNum
 
     };
     return publicApi;

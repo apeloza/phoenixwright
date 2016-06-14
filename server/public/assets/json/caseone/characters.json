@@ -1,0 +1,270 @@
+{
+  "witnessOne": {
+    "name": "Ruby",
+    "defaultSound": "blipfemale",
+    "emotions": {
+      "neutral": {
+        "talking": "witnessOne/witnessOne_neutral_speaking.gif",
+        "finished": "ruby/ruby_neutral.gif"
+      },
+      "sweating": {
+        "talking": "witnessOne/witnessOne_sweating_speaking.gif",
+        "finished": "witnessOne/witnessOne_sweating.gif"
+      },
+      "silly": {
+        "talking": "witnessOne/witnessOne_teehee_speaking.gif",
+        "finished": "witnessOne/witnessOne_teehee.gif"
+      },
+      "thinking": {
+        "talking": "witnessOne/witnessOne_thinking_speaking.gif",
+        "finished": "witnessOne/witnessOne_thinking.gif"
+      },
+      "none": {
+        "talking": "nosprite.png",
+        "finished": "nosprite.png"
+      }
+    }
+  },
+  "witnessTwo":{
+    "name": "Haskell",
+    "defaultSound": "blipmale",
+    "emotions": {
+      "neutral": {
+        "talking": "witnessTwo/witnessTwo_speaking.gif"
+      },
+      "none": {
+        "talking": "nosprite.png",
+        "finished": "nosprite.png"
+      }
+    }
+  },
+  "witnessThree":{
+    "name": "Java",
+    "defaultSound": "blipmale",
+    "emotions": {
+      "neutral": {
+        "talking": "witnessThree/witnessThree_neutral_speaking.gif",
+        "finished": "witnessThree/witnessThree_neutral.png"
+      },
+      "confident": {
+        "talking": "witnessThree/witnessThree_confident_speaking.gif",
+        "finished": "witnessThree/witnessThree_confident.png"
+      },
+      "aside": {
+        "talking": "witnessThree/witnessThree_side_speaking.gif",
+        "finished": "witnessThree/witnessThree_side.png"
+      },
+      "none": {
+        "talking": "nosprite.png",
+        "finished": "nosprite.png"
+      }
+    }
+  },
+  "detective": {
+    "name": "Linter",
+    "defaultSound": "blipmale",
+    "emotions": {
+      "neutral": {
+        "talking":"detective/detective_neutral_speaking.gif",
+        "finished": "detective/detective_neutral.gif"
+      },
+      "mad": {
+        "talking":"detective/detective_mad_speaking.gif",
+        "finished": "detective/detective_mad.gif"
+      },
+      "proud": {
+        "talking":"detective/detective_proud_speaking.gif",
+        "finished":"detective/detective_proud.gif"
+      },
+      "laughing": {
+        "talking": "detective/detective_laughing_speaking.gif",
+        "finished":"detective/detective_laughing.gif"
+      },
+      "confused": {
+        "talking": "detective/detective_confused.gif",
+        "finished": "detective/detective_confused.gif"
+      },
+      "sad": {
+        "talking": "detective/detective_sad_speaking.gif",
+        "finished": "detective/detective_sad.gif"
+      },
+      "pumped": {
+        "talking": "detective/detective_pumped_speaking.gif",
+        "finished": "detective/detective_pumped.gif"
+      },
+      "aside": {
+        "talking": "detective/detective_side_speaking.gif",
+        "finished": "detective/detective_side.gif"
+      },
+      "thinking": {
+        "talking": "detective/detective_thinking_speaking.gif",
+        "finished": "detective/detective_thinking.gif"
+      },
+      "none": {
+        "talking": "nosprite.png",
+        "finished": "nosprite.png"
+      }
+      }
+    },
+    "defense": {
+      "name": "Perl",
+      "defaultSound": "blipfemale",
+      "emotions": {
+        "neutral": {
+          "talking":"defense/defense_neutral_speaking.gif",
+          "finished":"defense/defense_neutral.gif"
+        },
+        "confident": {
+          "talking":"defense/defense_confident_speaking.gif",
+          "finished":"defense/defense_confident.gif"
+        },
+        "damage": {
+          "talking":"defense/defense_damage.gif",
+          "finished":"defense/defense_damage.gif"
+        },
+        "deskslam": {
+          "talking":"defense/defense_deskslam.gif",
+          "finished":"defense/defense_deskslam.gif"
+        },
+        "hairflip": {
+          "talking":"defense/defense_hairflip.gif",
+          "finished":"defense/defense_hairflip.gif"
+        },
+        "leaning": {
+          "talking":"defense/defense_handsondesk_speaking.gif",
+          "finished":"defense/defense_handsondesk.gif"
+        },
+        "objection": {
+          "talking":"defense/defense_objection.gif",
+          "finished":"defense/defense_pointing.gif"
+        },
+        "pointing": {
+          "talking":"defense/defense_pointing_speaking.gif",
+          "finished":"defense/defense_pointing.gif"
+        },
+        "sweating": {
+          "talking":"defense/defense_sweating_speaking.gif",
+          "finished":"defense/defense_sweating.gif"
+        },
+        "thinking": {
+          "talking":"defense/defense_thinking_speaking.gif",
+          "finished":"defense/defense_thinking.gif"
+        },
+        "none": {
+          "talking": "nosprite.png",
+          "finished": "nosprite.png"
+        },
+        "witnessThreeneutral": {
+          "talking":"witnessThree/witnessThree_neutral.png",
+          "finished":"witnessThree/witnessThree_neutral.png"
+        },
+        "witnessThreeconfident": {
+          "talking":"witnessThree/witnessThree_confident.png",
+          "finished":"witnessThree/witnessThree_confident.png"
+        },"witnessThreeaside": {
+          "talking":"witnessThree/witnessThree_side.png",
+          "finished":"witnessThree/witnessThree_side.png"
+        }
+      }
+    },
+    "judge": {
+      "name": "Judge",
+      "defaultSound": "blipmale",
+      "emotions": {
+        "headshake": {
+          "talking":"judge/judge_headshake.gif",
+          "finished":"judge/judge_headshake.gif"
+        },
+        "neutral": {
+          "talking":"judge/judge_neutral_speaking.gif",
+          "finished":"judge/judge_neutral.gif"
+        },
+        "nodding": {
+          "talking":"judge/judge_nodding.gif",
+          "finished":"judge/judge_nodding.gif"
+        },
+        "surprised": {
+          "talking":"judge/judge_surprised_speaking.gif",
+          "finished":"judge/judge_surprised.gif"
+        },
+        "thinking": {
+          "talking":"judge/judge_thinking.gif",
+          "finished":"judge/judge_thinking.gif"
+        },
+        "warning": {
+          "talking":"judge/judge_warning_speaking.gif",
+          "finished":"judge/judge_warning.gif"
+        },
+        "none": {
+          "talking": "nosprite.png",
+          "finished": "nosprite.png"
+        }
+      }
+    },
+    "prosecutor": {
+      "name": "C. Sharp",
+      "defaultSound": "blipmale",
+      "emotions": {
+        "document": {
+          "talking":"prosecutor/prosecutor_document_speaking.gif",
+          "finished":"prosecutor/prosecutor_document.gif"
+        },
+        "handsondesk": {
+          "talking":"prosecutor/prosecutor_handsondesk_speaking.gif",
+          "finished":"prosecutor/prosecutor_handsondesk.gif"
+        },
+        "neutral": {
+          "talking":"prosecutor/prosecutor_neutral_speaking.gif",
+          "finished":"prosecutor/prosecutor_neutral.gif"
+        },
+        "objection": {
+          "talking":"prosecutor/prosecutor_objection.gif",
+          "finished":"prosecutor/prosecutor_handsondesk.gif"
+        },
+        "pointing": {
+          "talking":"prosecutor/prosecutor_pointing_speaking.gif",
+          "finished":"prosecutor/prosecutor_pointing.gif"
+        },
+        "shrug": {
+          "talking":"prosecutor/prosecutor_shrug_speaking.gif",
+          "finished":"prosecutor/prosecutor_shrug_still.gif"
+        },
+        "smirk": {
+          "talking":"prosecutor/prosecutor_smirk.gif",
+          "finished":"prosecutor/prosecutor_smirk_still.gif"
+        },
+        "sweating": {
+          "talking":"prosecutor/prosecutor_sweating_speaking.gif",
+          "finished":"prosecutor/prosecutor_sweating.gif"
+        },
+        "thinking": {
+          "talking":"prosecutor/prosecutor_thinking_speaking.gif",
+          "finished":"prosecutor/prosecutor_thinking.gif"
+        },
+        "none": {
+          "talking": "nosprite.png",
+          "finished": "nosprite.png"
+        }
+      }
+    },
+    "aesop": {
+      "name": "Aesop",
+      "defaultSound": "blipfemale",
+      "emotions": {
+        "neutral": {
+          "talking":"nosprite.png",
+          "finished":"nosprite.png"
+        }
+      }
+
+    },
+    "noChar": {
+      "defaultSound": "typewriter",
+      "emotions": {
+        "default": {
+          "talking":"nosprite.png",
+          "finished":"nosprite.png"
+        }
+      }
+    }
+    }
