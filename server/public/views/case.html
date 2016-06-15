@@ -43,6 +43,7 @@
 <div class="saveselect" ng-show = "saveSelection">
   <h3>Save Selection</h3>
   <button class="choicebtn" ng-click="toTitle()">Back To Title Screen</button>
+  <img  class="loading" ng-show="loadingAnim" src="../assets/sprites/loading.svg" />
   <div class="saves" ng-repeat="save in savesArray">
     <button class="choicebtn savebtn" ng-click="loadSave(save._id)">{{save.displayLine}}</button>
     <button class="delete" ng-click="deleteSave(save._id)">Delete?</button>

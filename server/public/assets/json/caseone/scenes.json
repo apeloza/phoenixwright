@@ -8,7 +8,8 @@
             "type": "intro",
             "blip": "typewriter.wav",
             "background": "courtroomHall.png",
-            "showEvidence": "0"
+            "showEvidence": "0",
+            "texttime": "90"
         }, {
             "line": "(You can do this, Perl!)",
             "character": "defense",
@@ -187,7 +188,8 @@
             "emotion": "default",
             "sfx": "gallery.wav",
             "background": "courtroomanimated.gif",
-            "music": "stop"
+            "music": "stop",
+            "texttime": "90"
 
 
         }, {
@@ -588,6 +590,7 @@
             "character": "detective",
             "emotion": "neutral",
             "music": "xmoderate",
+            "texttime": "90",
             "anim": {
                 "src": "../assets/interfaceimages/testimony.gif",
                 "time": "2500"
@@ -611,9 +614,9 @@
             "line": "(Now it's looking even worse.)",
             "character": "defense",
             "emotion": "sweating",
+            "music": "stop",
             "background": "defenseempty.png",
-            "type": "thought",
-            "music": "stop"
+            "type": "thought"
         }, {
             "line": "Well? Are we done with this charade?",
             "character": "prosecutor",
@@ -658,6 +661,7 @@
             "emotion": "neutral",
             "music": "xmoderate",
             "talking": "default",
+            "texttime": "90",
             "anim": {
                 "src": "../assets/interfaceimages/xexamine.gif",
                 "time": "2500"
@@ -1102,7 +1106,9 @@
             "emotion": "neutral"
         }, {
             "line": "I thought that whole charade would be a good warmup for the Defense, naturally.",
-            "hideBox": "true"
+            "hideBox": "true",
+            "character": "prosecutor",
+            "emotion": "neutral"
         }, {
             "line": "To make sure they were reading the court record."
         }, {
@@ -1149,7 +1155,8 @@
             "hideBox": "true",
             "character": "detective",
             "emotion": "neutral",
-            "music": "xmoderate",
+            "music": "xfast",
+            "texttime": "90",
             "anim": {
                 "src": "../assets/interfaceimages/testimony.gif",
                 "time": "2500"
@@ -1187,8 +1194,8 @@
             "character": "defense",
             "emotion": "sweating",
             "sfx": "damage.wav",
-            "music": "stop",
-            "background": "defenseempty.png"
+            "background": "defenseempty.png",
+            "music": "stop"
         }, {
             "line": "Yes, you're aware of what fingerprints are, I hope?",
             "character": "prosecutor",
@@ -1343,7 +1350,8 @@
             "hideBox": "true",
             "character": "detective",
             "emotion": "neutral",
-            "music": "xmoderate",
+            "music": "xfast",
+            "texttime": "90",
             "anim": {
                 "src": "../assets/interfaceimages/xexamine.gif",
                 "time": "2500"
@@ -1356,6 +1364,7 @@
             "hideBox": "true",
             "type": "examination",
             "correctevidence": "none",
+            "denyBackward": "true",
             "presstext": {
                 "lines": [{
                     "line": "Where is your proof?!",
@@ -1639,6 +1648,7 @@
                                 "line": "(Bracket has a wife?)",
                                 "character": "defense",
                                 "emotion": "thinking",
+                                "background": "defenseempty.png",
                                 "type": "thought"
                             }]
                         }
@@ -1689,7 +1699,8 @@
                     "line": "So do you think the murder was premeditated?",
                     "character": "defense",
                     "emotion": "thinking",
-                    "background": "defenseempty.png"
+                    "background": "defenseempty.png",
+                    "type": "default"
                 }, {
                     "line": "Unlikely, pal. You don't leave a dead body lyin' around if you planned it ahead of time.",
                     "character": "detective",
@@ -1739,7 +1750,8 @@
             "character": "defense",
             "emotion": "sweating",
             "background": "defenseempty.png",
-            "music": "stop"
+            "music": "stop",
+            "hideBox": "true"
         }, {
             "line": "(But I can't give up yet!)",
             "type": "thought"

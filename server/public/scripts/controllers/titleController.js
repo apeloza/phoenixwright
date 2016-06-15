@@ -5,6 +5,8 @@ app.controller('TitleController', ['$scope', '$http', '$timeout', 'ngAudio', 'Da
 
   $scope.clickCase = function(caseNum){
     DataFactory.setCaseNum(caseNum);
+    var selectsound = ngAudio.load('../assets/audio/sfx/sfx-selectblip.wav');
+    selectsound.play();
   };
-  
+
 }]);

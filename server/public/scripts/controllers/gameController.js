@@ -11,8 +11,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
     //This function handles advancing to the next line of text, and swapping variables as needed.
     $scope.advanceText = function() {
-      if($scope.talking == true){
-        console.log("Still talking!");
+
+      //If the user clicks to advance while the game is still typing text, the whole line is immediately displayed.
+      if($scope.talking === true){
         $scope.displayLine = $scope.line.line;
         return;
       }
@@ -46,6 +47,10 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         //This if statement makes sure you're not trying to go backwards from the first line.
         if (currIndex === -1) {
             return;
+        }
+        if($scope.talking === true){
+          $scope.displayLine = $scope.line.line;
+          return;
         }
         currIndex = $scope.lines.indexOf($scope.line) || 0;
         nextIndex = currIndex - 1;
@@ -132,6 +137,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
             $scope.lines = $scope.currScene.lines;
             nextIndex = 0;
+            $scope.pressCheckClear = false;
         }
 
         //This checks to see if the user presented incorrect evidence, or that they are in a press statement (it returns them back to the cross-examination)
@@ -157,6 +163,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
                 $scope.lines = $scope.currScene.lines;
                 nextIndex = 0;
             } else {
+              music.stop();
                 $location.path('/title');
             }
         }
@@ -278,9 +285,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         }
     }
 
+//This function is used for testimonies where there is no valid evidence to present.
     function checkPressFlags() {
         if ($scope.line.pressAdd) {
-            console.log("Fired checkFlags");
             var oldFlag = false;
             for (i = 0; i < $scope.pressFlagArray; i++) {
                 if ($scope.line.pressAdd == $scope.pressFlagArray[i]) {
@@ -289,16 +296,13 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             }
             if (oldFlag === false) {
                 $scope.pressFlagArray.push($scope.line.pressAdd);
-                console.log($scope.pressFlagArray);
             }
         }
         if ($scope.line.pressReq) {
             if ($scope.line.pressReq == $scope.pressFlagArray.length) {
-                console.log("Finished pressing!");
                 $scope.pressCheckClear = true;
                 $scope.pressFlagArray = [];
             } else {
-                console.log("Did not finish pressing");
                 $scope.pressCheckClear = false;
             }
         }
@@ -432,6 +436,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         if ($scope.music) {
             $scope.music.stop();
         }
+        close.play();
         $location.path('/title');
     };
     //The clicked evidence is set as the active piece of evidence.
@@ -491,7 +496,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         $http.get('/save/all/' + $scope.caseNum)
             .then(function(saves) {
                 $scope.savesArray = saves.data;
+                $scope.loadingAnim = false;
             });
+            $scope.loadingAnim = true;
     }
 
     //Brings the user to the load menu after a warning about losing progress.
@@ -509,6 +516,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         }
         $scope.inCase = false;
         $scope.scenes = DataFactory.sceneOrder();
+        console.log($scope.scenes);
         $scope.evidence = DataFactory.evidenceList();
         $scope.playAnimation = false;
         $scope.currChar = DataFactory.getCharacter('noChar');
@@ -563,6 +571,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     $scope.newGame = function() {
         $scope.saveSelection = false;
         $scope.inCase = true;
+        open.play();
         $scope.scenes = DataFactory.sceneOrder();
         $scope.currScene = DataFactory.getScene($scope.scenes[0]);
         $scope.lines = $scope.currScene.lines;
@@ -598,9 +607,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     //Loads the game by bringing in a specified save object and then setting game variables based on the object.
     $scope.loadSave = function(id) {
         $scope.saveSelection = false;
+        open.play();
         $http.get('/save/' + id)
             .then(function(savefile) {
-                console.log(savefile);
                 if (savefile.data.music) {
                     $scope.music = ngAudio.load(savefile.data.music.id);
                     $scope.music.loop = true;
@@ -616,7 +625,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
                 $scope.line = $scope.lines[savefile.data.position - 1];
                 sceneCounter = savefile.data.scenePosition;
                 $scope.background = savefile.data.background;
-                console.log($scope.background);
                 checkBenches();
                 $scope.evidenceBox = savefile.data.evidenceBox;
                 $scope.activesrc = savefile.data.evidenceBoxSrc;
