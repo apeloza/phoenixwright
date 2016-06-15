@@ -11,6 +11,11 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
     //This function handles advancing to the next line of text, and swapping variables as needed.
     $scope.advanceText = function() {
+      if($scope.talking == true){
+        console.log("Still talking!");
+        $scope.displayLine = $scope.line.line;
+        return;
+      }
         currIndex = $scope.lines.indexOf($scope.line) || 0;
         nextIndex = currIndex + 1;
         checkScene();
