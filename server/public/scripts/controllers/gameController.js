@@ -209,9 +209,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             $scope.music.volume = 0.75;
 
         } else if ($scope.line.music) {
-          if($scope.music){
-            $scope.music.pause();
-          }
+            if ($scope.music) {
+                $scope.music.pause();
+            }
 
             $scope.music = ngAudio.load("../assets/audio/bgm/" + $scope.line.music + ".mp3");
             $scope.music.loop = true;
@@ -300,7 +300,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     }
     //Checks to see if the text color should be changed. Some have special properties that are also enabled this way.
     function checkTextType() {
-      debugger;
         if ($scope.line.type == 'intro') {
             $scope.texttype = {
                 'color': 'green',
@@ -310,8 +309,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             $scope.isTalking = 'finished';
             $scope.allowPress = false;
             $scope.allowBackward = false;
-        }
-        else if ($scope.line.type == 'examination') {
+        } else if ($scope.line.type == 'examination') {
             $scope.texttype = {
                 'color': 'green'
             };
@@ -426,10 +424,10 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
     //Prepares the case to go back to the title by turning off anything that's currently active.
     $scope.toTitle = function() {
-      if($scope.music){
-        $scope.music.stop();
-}
-$location.path('/title');
+        if ($scope.music) {
+            $scope.music.stop();
+        }
+        $location.path('/title');
     };
     //The clicked evidence is set as the active piece of evidence.
     $scope.setActiveEvidence = function(evName) {
@@ -485,7 +483,7 @@ $location.path('/title');
     }
     //fetches all saves from the database and stores them locally
     function getSaves() {
-        $http.get('/save/all')
+        $http.get('/save/all/' + $scope.caseNum)
             .then(function(saves) {
                 $scope.savesArray = saves.data;
             });
@@ -504,8 +502,8 @@ $location.path('/title');
         if ($scope.music) {
             $scope.music.pause();
         }
-$scope.inCase = false;
-        $scope.scenes = ['tutorial', 'opening', 'courtroomIntro', 'testimonyOne', 'examinationOne', 'interludeOne', 'testimonyTwo', 'examinationTwo', 'interludeTwo', 'epilogue'];
+        $scope.inCase = false;
+        $scope.scenes = DataFactory.sceneOrder();
         $scope.evidence = DataFactory.evidenceList();
         $scope.playAnimation = false;
         $scope.currChar = DataFactory.getCharacter('noChar');
@@ -548,7 +546,8 @@ $scope.inCase = false;
             evidenceBox: $scope.evidenceBox,
             evidenceBoxSrc: $scope.activesrc,
             music: $scope.music,
-            displayLine: $scope.displayLine
+            displayLine: $scope.displayLine,
+            caseNum: $scope.caseNum
 
         };
         $http.post('/save', $scope.progressSave)
@@ -559,13 +558,15 @@ $scope.inCase = false;
     $scope.newGame = function() {
         $scope.saveSelection = false;
         $scope.inCase = true;
-        $scope.music = ngAudio.load("../assets/audio/bgm/logic.mp3");
-        $scope.currChar = DataFactory.getCharacter('noChar');
-        $scope.currScene = DataFactory.getScene('tutorial');
+        $scope.scenes = DataFactory.sceneOrder();
+        $scope.currScene = DataFactory.getScene($scope.scenes[0]);
         $scope.lines = $scope.currScene.lines;
-        $scope.background = {
-            'background-image': 'url(../assets/backgrounds/startbg.png)'
-        };
+        $scope.line = $scope.currScene.lines[0];
+        checkCharacter();
+        checkSprite();
+        checkBackground();
+        checkMusic();
+        checkSFX();
         $scope.hiddenEvidence = [];
         $scope.evidencePlaceholder = [];
         var length = DataFactory.getEvidenceLength();
@@ -573,11 +574,12 @@ $scope.inCase = false;
             $scope.hiddenEvidence.push(false);
             $scope.evidencePlaceholder.push(true);
         }
-        $scope.music.loop = true;
-        $scope.music.play();
-        $scope.music.volume = 0.75;
+
         $scope.isTalking = 'talking';
-        $scope.advanceText();
+        checkTypeTime();
+        checkTextType();
+        $scope.typeText();
+        checkArrows();
     };
 
     //Deletes a save from the database
@@ -617,6 +619,7 @@ $scope.inCase = false;
                 $scope.evidencePlaceholder = savefile.data.evidencePlaceholder;
 
                 $scope.isTalking = 'talking';
+                checkTypeTime();
                 $scope.advanceText();
             });
     };
@@ -658,6 +661,7 @@ $scope.inCase = false;
 
     //The data factory fetches all our JSON files with ajax requests, and then our variables are set up.
     DataFactory.initialize().then(function() {
+      $scope.caseNum = DataFactory.getCaseNum();
         $scope.saveMenu();
     });
 

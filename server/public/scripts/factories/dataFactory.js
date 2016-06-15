@@ -10,6 +10,9 @@ app.factory('DataFactory', ['$http', '$q', function($http, $q) {
 function setCaseNum(clickednum){
 casenum = clickednum;
 }
+function getCaseNum(){
+  return casenum;
+}
 
     function getChars() {
         var promise = $http.get('/case' + casenum+ '/characters').then(function(response) {
@@ -38,7 +41,9 @@ casenum = clickednum;
     function scenesArray() {
         return scenes;
     }
-
+function sceneOrder(){
+  return scenes.sceneArray;
+}
     function evidenceList() {
         return evidence;
     }
@@ -83,7 +88,9 @@ casenum = clickednum;
         scenesArray: scenesArray,
         getEvidenceLength: getEvidenceLength,
         evidenceList: evidenceList,
-        setCaseNum: setCaseNum
+        setCaseNum: setCaseNum,
+        sceneOrder: sceneOrder,
+        getCaseNum: getCaseNum
 
     };
     return publicApi;

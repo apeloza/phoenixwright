@@ -14,7 +14,8 @@ emotion: {type: Object, required: true},
 evidenceBox: {type: Boolean},
 evidenceBoxSrc: {type: String},
 music: {type: Object},
-displayLine: {type: String}
+displayLine: {type: String},
+caseNum: {type: String}
 });
 
 var Save = mongoose.model('Save', saveSchema);

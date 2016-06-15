@@ -1,0 +1,23 @@
+{
+
+    "aesop": {
+      "name": "Aesop",
+      "defaultSound": "blipfemale",
+      "emotions": {
+        "neutral": {
+          "talking":"nosprite.png",
+          "finished":"nosprite.png"
+        }
+      }
+
+    },
+    "noChar": {
+      "defaultSound": "typewriter",
+      "emotions": {
+        "default": {
+          "talking":"nosprite.png",
+          "finished":"nosprite.png"
+        }
+      }
+    }
+    }

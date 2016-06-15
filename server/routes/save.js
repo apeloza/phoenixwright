@@ -14,8 +14,9 @@ router.post('/', function(req, res) {
         res.sendStatus(201);
     });
 });
-router.get('/all/', function(req, res){
-  Save.find({}, function (err, saves){
+router.get('/all/:id', function(req, res){
+  console.log(req.body);
+  Save.find({'caseNum': req.params.id}, function (err, saves){
     if (err) {
       res.sendStatus(500);
       console.log(err);

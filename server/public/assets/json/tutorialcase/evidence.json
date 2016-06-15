@@ -1,0 +1,11 @@
+{
+    "aesop": {
+        "name": "Aesop",
+        "description": "The world's best corgi. Click on check for more information!",
+        "image": "../assets/evidence/aesop.png",
+        "info": "When you click on check, more detailed information appears. You can now close this window!",
+        "id": "aesop"
+    }
+
+
+}

@@ -1,14 +1,72 @@
 {
-    "sceneArray": ["opening", "courtroomIntro", "testimonyOne", "examinationOne", "interludeOne", "testimonyTwo", "examinationTwo", "interludeTwo", "epilogue"],
+  "sceneArray": ["tutorial"],
+    "tutorial": {
+        "lines": [{
+            "line": "Before we start the case, let's go through a brief tutorial! Click the arrow in the lower right of this box to advance.",
+            "character": "noChar",
+            "emotion": "default",
+            "background": "startbg.png",
+            "music": "logic"
+        }, {
+            "line": "Our assistant will be Aesop. Say hello Aesop!"
+        }, {
+            "line": "*bark*",
+            "blip": "dog bark.wav",
+            "character": "aesop",
+            "showBox": "aesop.png",
+            "emotion": "neutral"
+        }, {
+            "line": "In this game, you play the role of a defense attorney trying to get a 'Not Guilty' verdict for their client."
+        }, {
+            "line": "Though the case may seem grim, the truth is out there! You have a few weapons at your disposal."
+        }, {
+            "line": "The first is the power to 'press'. The press button will appear when you are able to press a witness for more information. Go ahead and try now!",
+            "denyForward": "true",
+            "allowPress": "true",
+            "presstext": {
+                "lines": [{
+                    "line": "*bark*",
+                    "blip": "dog bark.wav",
+                    "type": "default"
+                }, {
+                    "line": "Great job! I will now introduce your second weapon."
 
+                }]
+            }
+        }, {
+            "line": "Your second weapon is evidence. Go ahead and click the 'Evidence' button in the top left, and then click on me. After you are done, go ahead and click the arrow.",
+            "type": "default",
+            "showEvidence": "0"
+        }, {
+            "line": "To advance in the game, you must show the correct evidence to a statement with the present button."
+        }, {
+            "line": "The present button is now enabled in the evidence window. Use it with our Aesop evidence!",
+            "type": "examination",
+            "denyPress": "true",
+            "denyForward": "true",
+            "denyBackward": "true",
+            "correctevidence": "aesop",
+            "correctlines": {
+                "lines": [{
+                    "line": "Way to go! We're now finished with this tutorial.",
+                    "type": "default"
+                }, {
+                    "line": "Your clients are counting on you. Good luck out there!"
+                }]
+
+            }
+        }]
+    },
     "opening": {
         "lines": [{
             "line": "7:00 AM, June 20th, District Court House #3",
             "hideBox": "true",
             "type": "intro",
             "blip": "typewriter.wav",
+            "music": "stop",
             "background": "courtroomHall.png",
-            "showEvidence": "0"
+            "hideEvidence": "0",
+            "showEvidence": "1"
         }, {
             "line": "(You can do this, Perl!)",
             "character": "defense",
@@ -347,7 +405,7 @@
             "line": "Java admits he went to the victim's house that night.",
             "emotion": "shrug",
             "hideBox": "true",
-            "showEvidence": "1"
+            "showEvidence": "2"
         }, {
             "line": "So as you see, he's clearly guilty.",
             "music": "trial"
@@ -863,7 +921,7 @@
                                 "line": "Autopsy report added to the court record.",
                                 "talking": "default",
                                 "showBox": "autopsyreport.png",
-                                "showEvidence": "2",
+                                "showEvidence": "3",
                                 "name": " ",
                                 "blip": "typewriter.wav",
                                 "sfx": "selectjingle.wav"
@@ -1095,7 +1153,7 @@
             "line": "Shattered Teacup added to the court record.",
             "sfx": "selectjingle.wav",
             "showBox": "glassshards.png",
-            "showEvidence": "3",
+            "showEvidence": "4",
             "name": " ",
             "blip": "typewriter.wav",
             "talking": "default",
@@ -1503,7 +1561,7 @@
                     "blip": "typewriter.wav",
                     "name": " ",
                     "showBox": "knife.png",
-                    "showEvidence": "4",
+                    "showEvidence": "5",
                     "talking": "default"
                 }]
             },

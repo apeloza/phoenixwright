@@ -5,10 +5,12 @@ var path = require('path');
 var mongoose = require('mongoose');
 var caseOne = require('./routes/caseone');
 var caseTwo = require('./routes/casetwo');
+var tutorialCase = require('./routes/tutorialcase');
 var save = require('./routes/save');
 app.set('port', (process.env.PORT || 3000));
 app.use(bodyParser.json());
 
+app.use('/case0', tutorialCase);
 app.use('/case1', caseOne);
 app.use('/case2', caseTwo);
 app.use('/save', save);
