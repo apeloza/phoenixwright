@@ -266,5 +266,23 @@
           "finished":"nosprite.png"
         }
       }
+    },
+    "narrator": {
+      "name": "Anthony",
+      "defaultSound": "blipmale",
+      "emotions": {
+        "neutral": {
+          "talking":"narrator/narrator_neutral_speaking.gif",
+          "finished": "narrator/narrator_neutral.gif"
+        },
+        "nice": {
+          "talking": "narrator/narrator_nice_speaking.gif",
+          "finished": "narrator/narrator_nice.gif"
+        },
+        "thinking": {
+          "talking": "narrator/narrator_thinking_speaking.gif",
+          "finished": "narrator/narrator_thinking.gif"
+        }
+      }
     }
     }

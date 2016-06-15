@@ -1606,6 +1606,7 @@
                     "character": "defense",
                     "emotion": "thinking",
                     "type": "thought",
+                    "denyForward": "true",
                     "background": "defenseempty.png",
                     "choices": {
                         "choiceA": {
@@ -1787,12 +1788,76 @@
         }]
     },
     "interludeTwo": {
-      "lines": [{
-        "line": "(I can't find anything wrong in this testimony!)",
-        "type": "thought",
-        "character": "defense",
-        "emotion": "sweating",
-        "background": "defenseempty.png"
+        "lines": [{
+            "line": "(I can't find anything wrong in this testimony!)",
+            "type": "thought",
+            "character": "defense",
+            "emotion": "sweating",
+            "background": "defenseempty.png",
+            "music": "stop"
+        }, {
+            "line": "(But I can't give up yet!)",
+            "type": "thought"
+        }, {
+            "line": "Is something wrong, Defense?",
+            "character": "judge",
+            "emotion": "neutral",
+            "background": "judgestand.png",
+            "type": "default"
+        }, {
+            "line": "No, your Honor, I just . . .",
+            "character": "defense",
+            "emotion": "sweating",
+            "background": "defenseempty.png"
+        }, {
+            "line": "Do you have an objection to this witness' testimony?",
+            "character": "judge",
+            "emotion": "warning",
+            "background": "judgestand.png"
+        }, {
+            "line": "Well . . .",
+            "character": "defense",
+            "emotion": "sweating",
+            "background": "defenseempty.png"
+        }, {
+            "line": "Of course she doesn't, your Honor.",
+            "character": "prosecutor",
+            "emotion": "thinking",
+            "background": "prosecutorempty.png"
+        }, {
+            "line": "This case is already settled."
+        }, {
+            "line": "In that case, I find the defendant . . .",
+            "character": "judge",
+            "emotion": "neutral",
+            "background": "judgestand.png"
+        }, {
+            "line": "TO BE CONTINUED",
+            "character": "noChar",
+            "emotion": "default",
+            "blip": "typewriter.wav",
+            "type": "intro",
+            "background": "courtroomanimated.gif",
+            "sfx": "gallery.wav",
+            "texttime": "100"
+        }]
+    },
+    "epilogue": {
+        "lines": [{
+            "line": "Thank you for playing my game!",
+            "character": "narrator",
+            "emotion": "neutral",
+            "background": "startbg.png",
+            "music": "victory",
+            "type": "default"
+        }, {
+            "line": "Story development is unfortunately unfinished at the moment.",
+            "emotion": "thinking"
+        }, {
+            "line": "But don't worry!",
+            "emotion": "nice"
+        }, {
+            "line": "I fully intend to finish writing this story. Check back again sometime!"
         }]
     }
 }

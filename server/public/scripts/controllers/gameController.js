@@ -1,4 +1,4 @@
-app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'DataFactory', function($scope, $http, $timeout, ngAudio, DataFactory) {
+app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'ngAudio', 'DataFactory', function($scope, $http, $timeout, $location, ngAudio, DataFactory) {
     var sceneCounter = 0;
     var blip;
     var nextIndex;
@@ -31,6 +31,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkAnim();
         checkTalking();
         checkSFX();
+        checkTypeTime();
         $scope.typeText();
     };
 
@@ -55,8 +56,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', 'ngAudio', 'Dat
         checkTextType();
         checkPress();
         checkArrows();
-checkTalking();
+        checkTalking();
         checkSFX();
+        checkTypeTime();
         $scope.typeText();
     };
 
@@ -111,8 +113,7 @@ checkTalking();
 
     //Governs behaviour regarding what is displayed 'next' in the textbox, should a series of lines end.
     function checkScene() {
-
-      //This checks to see if the user made an incorrect choice at a choice menu.
+        //This checks to see if the user made an incorrect choice at a choice menu.
         if (nextIndex == $scope.lines.length && $scope.incorrectChoice === true) {
             $scope.currScene = $scope.choiceScene;
             $scope.lines = $scope.currScene.lines;
@@ -121,11 +122,11 @@ checkTalking();
         }
 
         //This checks to see if the player can advance from the testimony because they pressed for enough information.
-        else if(nextIndex == $scope.lines.length && $scope.pressCheckClear === true){
-          sceneCounter++;
-          $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
-          $scope.lines = $scope.currScene.lines;
-          nextIndex = 0;
+        else if (nextIndex == $scope.lines.length && $scope.pressCheckClear === true) {
+            sceneCounter++;
+            $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
+            $scope.lines = $scope.currScene.lines;
+            nextIndex = 0;
         }
 
         //This checks to see if the user presented incorrect evidence, or that they are in a press statement (it returns them back to the cross-examination)
@@ -146,9 +147,13 @@ checkTalking();
         //This checks to see if you've reached the end of a normal, run of the mill scene.
         else if (nextIndex == $scope.lines.length) {
             sceneCounter++;
-            $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
-            $scope.lines = $scope.currScene.lines;
-            nextIndex = 0;
+            if ($scope.scenes[sceneCounter] !== undefined) {
+                $scope.currScene = DataFactory.getScene($scope.scenes[sceneCounter]);
+                $scope.lines = $scope.currScene.lines;
+                nextIndex = 0;
+            } else {
+                $location.path('/title');
+            }
         }
     }
 
@@ -197,13 +202,17 @@ checkTalking();
     //If there is new music, reset the audio track.
     function checkMusic() {
         if ($scope.line.music == "stop") {
-            $scope.music.pause();
+            $scope.music.stop();
+            $scope.music = '';
         } else if ($scope.line.music == "play") {
             $scope.music.play();
             $scope.music.volume = 0.75;
 
         } else if ($scope.line.music) {
+          if($scope.music){
             $scope.music.pause();
+          }
+
             $scope.music = ngAudio.load("../assets/audio/bgm/" + $scope.line.music + ".mp3");
             $scope.music.loop = true;
             $scope.music.play();
@@ -253,7 +262,7 @@ checkTalking();
         checkBenches();
     }
 
-//Plays animations on the center of the screen (e.g. Objection!), and then delays by a specified amount before hiding it
+    //Plays animations on the center of the screen (e.g. Objection!), and then delays by a specified amount before hiding it
     function checkAnim() {
         if ($scope.line.anim) {
             $scope.playAnimation = true;
@@ -263,33 +272,35 @@ checkTalking();
             $timeout(stopAnimation, $scope.line.anim.time);
         }
     }
-function checkPressFlags(){
-  if($scope.line.pressAdd){
-    console.log("Fired checkFlags");
-    var oldFlag = false;
-    for (i = 0; i < $scope.pressFlagArray; i++){
-      if($scope.line.pressAdd == $scope.pressFlagArray[i]){
-        oldFlag = true;
-      }
+
+    function checkPressFlags() {
+        if ($scope.line.pressAdd) {
+            console.log("Fired checkFlags");
+            var oldFlag = false;
+            for (i = 0; i < $scope.pressFlagArray; i++) {
+                if ($scope.line.pressAdd == $scope.pressFlagArray[i]) {
+                    oldFlag = true;
+                }
+            }
+            if (oldFlag === false) {
+                $scope.pressFlagArray.push($scope.line.pressAdd);
+                console.log($scope.pressFlagArray);
+            }
+        }
+        if ($scope.line.pressReq) {
+            if ($scope.line.pressReq == $scope.pressFlagArray.length) {
+                console.log("Finished pressing!");
+                $scope.pressCheckClear = true;
+                $scope.pressFlagArray = [];
+            } else {
+                console.log("Did not finish pressing");
+                $scope.pressCheckClear = false;
+            }
+        }
     }
-    if(oldFlag === false){
-      $scope.pressFlagArray.push($scope.line.pressAdd);
-      console.log($scope.pressFlagArray);
-    }
-  }
-  if ($scope.line.pressReq){
-    if($scope.line.pressReq == $scope.pressFlagArray.length){
-      console.log("Finished pressing!");
-      $scope.pressCheckClear = true;
-      $scope.pressFlagArray = [];
-    } else {
-      console.log("Did not finish pressing");
-      $scope.pressCheckClear = false;
-    }
-  }
-}
     //Checks to see if the text color should be changed. Some have special properties that are also enabled this way.
     function checkTextType() {
+      debugger;
         if ($scope.line.type == 'intro') {
             $scope.texttype = {
                 'color': 'green',
@@ -300,7 +311,7 @@ function checkPressFlags(){
             $scope.allowPress = false;
             $scope.allowBackward = false;
         }
-        if ($scope.line.type == 'examination') {
+        else if ($scope.line.type == 'examination') {
             $scope.texttype = {
                 'color': 'green'
             };
@@ -355,7 +366,7 @@ function checkPressFlags(){
             var index = $scope.displayLine.length;
             blip.play();
             $scope.displayLine += $scope.line.line[index];
-            $timeout($scope.typeText, 20);
+            $timeout($scope.typeText, $scope.texttime);
         } else {
             $scope.talking = false;
             $scope.isTalking = 'finished';
@@ -415,8 +426,10 @@ function checkPressFlags(){
 
     //Prepares the case to go back to the title by turning off anything that's currently active.
     $scope.toTitle = function() {
+      if($scope.music){
         $scope.music.stop();
-
+}
+$location.path('/title');
     };
     //The clicked evidence is set as the active piece of evidence.
     $scope.setActiveEvidence = function(evName) {
@@ -463,7 +476,14 @@ function checkPressFlags(){
         }
     };
 
-//fetches all saves from the database and stores them locally
+    function checkTypeTime() {
+        if ($scope.line.texttime) {
+            $scope.texttime = $scope.line.texttime;
+        } else {
+            $scope.texttime = 20;
+        }
+    }
+    //fetches all saves from the database and stores them locally
     function getSaves() {
         $http.get('/save/all')
             .then(function(saves) {
@@ -484,8 +504,8 @@ function checkPressFlags(){
         if ($scope.music) {
             $scope.music.pause();
         }
-
-        $scope.scenes = ['tutorial', 'opening', 'courtroomIntro', 'testimonyOne', 'examinationOne', 'interludeOne', 'testimonyTwo', 'examinationTwo', 'interludeTwo'];
+$scope.inCase = false;
+        $scope.scenes = ['tutorial', 'opening', 'courtroomIntro', 'testimonyOne', 'examinationOne', 'interludeOne', 'testimonyTwo', 'examinationTwo', 'interludeTwo', 'epilogue'];
         $scope.evidence = DataFactory.evidenceList();
         $scope.playAnimation = false;
         $scope.currChar = DataFactory.getCharacter('noChar');
@@ -509,7 +529,7 @@ function checkPressFlags(){
     //Saves the game. If the user has too many saves, the save fails and the user is told to delete saves.
     $scope.saveGame = function() {
         getSaves();
-        if ($scope.savesArray.length >= 4) {
+        if ($scope.savesArray.length >= 3) {
             alert("You have too many saves! Delete some first.");
             return;
         }
@@ -538,6 +558,7 @@ function checkPressFlags(){
     //This function is fired when the user does not load a save. It sets us at the start of the json file and prepares the game.
     $scope.newGame = function() {
         $scope.saveSelection = false;
+        $scope.inCase = true;
         $scope.music = ngAudio.load("../assets/audio/bgm/logic.mp3");
         $scope.currChar = DataFactory.getCharacter('noChar');
         $scope.currScene = DataFactory.getScene('tutorial');
@@ -572,7 +593,14 @@ function checkPressFlags(){
         $scope.saveSelection = false;
         $http.get('/save/' + id)
             .then(function(savefile) {
-                $scope.music = ngAudio.load(savefile.data.music.id);
+                console.log(savefile);
+                if (savefile.data.music) {
+                    $scope.music = ngAudio.load(savefile.data.music.id);
+                    $scope.music.loop = true;
+                    $scope.music.play();
+                    $scope.music.volume = 0.75;
+                }
+                $scope.inCase = true;
                 $scope.currChar = savefile.data.character;
                 $scope.charName = savefile.data.character.name;
                 $scope.emotion = savefile.data.emotion;
@@ -582,14 +610,12 @@ function checkPressFlags(){
                 sceneCounter = savefile.data.scenePosition;
                 $scope.background = savefile.data.background;
                 console.log($scope.background);
-                                checkBenches();
+                checkBenches();
                 $scope.evidenceBox = savefile.data.evidenceBox;
                 $scope.activesrc = savefile.data.evidenceBoxSrc;
                 $scope.hiddenEvidence = savefile.data.evidence;
                 $scope.evidencePlaceholder = savefile.data.evidencePlaceholder;
-                $scope.music.loop = true;
-                $scope.music.play();
-                $scope.music.volume = 0.75;
+
                 $scope.isTalking = 'talking';
                 $scope.advanceText();
             });
