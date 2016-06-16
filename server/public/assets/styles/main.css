@@ -2,6 +2,9 @@
   font-family: "Ace Attorney";
   src: local('Ace Attorney'),url('../fonts/Ace-Attorney.ttf') format('truetype');
 }
+body{
+  margin: 0;
+}
 h1, h2, a {
   font-family: "Ace attorney", sans-serif;
   text-align: center;

@@ -124,6 +124,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     //Governs behaviour regarding what is displayed 'next' in the textbox, should a series of lines end.
     function checkScene() {
         //This checks to see if the user made an incorrect choice at a choice menu.
+        debugger;
         if (nextIndex == $scope.lines.length && $scope.incorrectChoice === true) {
             $scope.currScene = $scope.choiceScene;
             $scope.lines = $scope.currScene.lines;
@@ -138,6 +139,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             $scope.lines = $scope.currScene.lines;
             nextIndex = 0;
             $scope.pressCheckClear = false;
+            $scope.isPress = false;
         }
 
         //This checks to see if the user presented incorrect evidence, or that they are in a press statement (it returns them back to the cross-examination)
@@ -163,7 +165,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
                 $scope.lines = $scope.currScene.lines;
                 nextIndex = 0;
             } else {
-              music.stop();
+              $scope.music.stop();
                 $location.path('/title');
             }
         }
@@ -485,7 +487,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     };
 
     function checkTypeTime() {
-        if ($scope.line.texttime) {
+      console.log($scope.line);
+        if ($scope.line.texttime !== undefined) {
             $scope.texttime = $scope.line.texttime;
         } else {
             $scope.texttime = 20;
@@ -588,7 +591,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             $scope.hiddenEvidence.push(false);
             $scope.evidencePlaceholder.push(true);
         }
-
+        checkEvidenceChange();
         $scope.isTalking = 'talking';
         checkTypeTime();
         checkTextType();
@@ -622,7 +625,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
                 $scope.emotion = savefile.data.emotion;
                 $scope.currScene = savefile.data.currScene;
                 $scope.lines = savefile.data.lines;
-                $scope.line = $scope.lines[savefile.data.position - 1];
+                $scope.line = $scope.lines[savefile.data.position - 1] || $scope.lines[savefile.data.position];
                 sceneCounter = savefile.data.scenePosition;
                 $scope.background = savefile.data.background;
                 checkBenches();
