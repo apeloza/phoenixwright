@@ -4,6 +4,7 @@ $scope.background = {
   'background-position': '-2217px -580px'
 };
   $scope.clickCase = function(caseNum){
+    eggmusic.stop();
     DataFactory.setCaseNum(caseNum);
     var selectsound = ngAudio.load('../assets/audio/sfx/sfx-selectblip.wav');
     selectsound.play();
