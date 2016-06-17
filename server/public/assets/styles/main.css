@@ -242,3 +242,27 @@ text-align: center;
   display: block;
   margin: auto;
 }
+.egg{
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  bottom: 50%;
+  animation: cycling 5s infinite;
+
+}
+.datboi {
+  animation: cycling 5s infinite;
+}
+@keyframes cycling {
+  0% {left: 120%}
+  10% {left: 100%}
+  20% {left: 80%}
+  30% {left: 60%}
+  40% {left: 40%}
+  50% {left: 20%}
+  60% {left: 0%}
+  70% {left: -20%}
+  80% {left: -40%}
+  90% {left: -60%}
+  100% {left: -80%}
+}
