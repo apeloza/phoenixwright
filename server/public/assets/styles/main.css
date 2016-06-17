@@ -86,7 +86,8 @@ background-color: brown;
   height: 700px;
   width: 65%;
   background-repeat: no-repeat;
-  background-size:contain;
+  background-image: url(../backgrounds/backgroundsprites.png);
+  background-size: 400%;
   margin: auto;
   position: relative;
 }

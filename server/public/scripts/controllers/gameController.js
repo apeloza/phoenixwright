@@ -12,11 +12,11 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     //This function handles advancing to the next line of text, and swapping variables as needed.
     $scope.advanceText = function() {
 
-      //If the user clicks to advance while the game is still typing text, the whole line is immediately displayed.
-      if($scope.talking === true){
-        $scope.displayLine = $scope.line.line;
-        return;
-      }
+        //If the user clicks to advance while the game is still typing text, the whole line is immediately displayed.
+        if ($scope.talking === true) {
+            $scope.displayLine = $scope.line.line;
+            return;
+        }
         currIndex = $scope.lines.indexOf($scope.line) || 0;
         nextIndex = currIndex + 1;
         checkScene();
@@ -48,9 +48,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         if (currIndex === -1) {
             return;
         }
-        if($scope.talking === true){
-          $scope.displayLine = $scope.line.line;
-          return;
+        if ($scope.talking === true) {
+            $scope.displayLine = $scope.line.line;
+            return;
         }
         currIndex = $scope.lines.indexOf($scope.line) || 0;
         nextIndex = currIndex - 1;
@@ -165,7 +165,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
                 $scope.lines = $scope.currScene.lines;
                 nextIndex = 0;
             } else {
-              $scope.music.stop();
+                $scope.music.stop();
                 $location.path('/title');
             }
         }
@@ -256,7 +256,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         //If the judge is the active character, move the portrait up so that the judge sits properly.
         var characterPortrait = document.getElementById('portrait');
         if ($scope.currChar.name == 'Judge') {
-            characterPortrait.style.height = '514px';
+            characterPortrait.style.height = '479px';
         } else {
             characterPortrait.style.height = '540px';
         }
@@ -266,10 +266,65 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     function checkBackground() {
         if ($scope.line.background) {
             $scope.bgName = $scope.line.background;
-            $scope.background = {
-                'background-image': 'url(../assets/backgrounds/' + $scope.line.background,
-                'name': $scope.line.background
-            };
+
+            switch ($scope.line.background) {
+                case 'witnessempty.png':
+                    $scope.background = {
+                        'background-position': '-1478px -580px',
+                        'name': $scope.line.background
+                    };
+                    break;
+                case 'defenseempty.png':
+                    $scope.background = {
+                        'background-position': '-1478px 0px',
+                        'name': $scope.line.background
+                    };
+                    break;
+                case 'prosecutorempty.png':
+                    $scope.background = {
+                        'background-position': '-739px -580px',
+                        'name': $scope.line.background
+                    };
+                    break;
+                case 'courtroomHall.png':
+                $scope.background = {
+                    'background-position': '0px 0px',
+                    'name': $scope.line.background
+                };
+                    break;
+                    case 'startbg.png':
+                    $scope.background = {
+                      'background-position': '-2217px -580px',
+                      'name': $scope.line.background
+                    };
+                    break;
+                    case 'helperstand.png':
+                    $scope.background = {
+                      'background-position': '-2217px 0px',
+                      'name': $scope.line.background
+                    };
+                    break;
+                    case 'judgestand.png':
+                    $scope.background = {
+                      'background-position': '0px -580px',
+                      'name': $scope.line.background
+
+                    };
+                    break;
+                    case 'courtroomoverview.png':
+                    $scope.background = {
+                      'background-position': '-739px 0px',
+                      'name': $scope.line.background
+                    };
+                    break;
+                    case 'courtroomanimated.gif':
+                    $scope.background = {
+                      'background-image': 'url(../assets/backgrounds/courtroomanimated.gif)',
+                      'background-size': 'contain',
+                      'name': $scope.line.background
+                    };
+                    break;
+            }
 
 
         }
@@ -287,7 +342,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         }
     }
 
-//This function is used for testimonies where there is no valid evidence to present.
+    //This function is used for testimonies where there is no valid evidence to present.
     function checkPressFlags() {
         if ($scope.line.pressAdd) {
             var oldFlag = false;
@@ -487,7 +542,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     };
 
     function checkTypeTime() {
-      console.log($scope.line);
+        console.log($scope.line);
         if ($scope.line.texttime !== undefined) {
             $scope.texttime = $scope.line.texttime;
         } else {
@@ -501,7 +556,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
                 $scope.savesArray = saves.data;
                 $scope.loadingAnim = false;
             });
-            $scope.loadingAnim = true;
+        $scope.loadingAnim = true;
     }
 
     //Brings the user to the load menu after a warning about losing progress.
@@ -526,7 +581,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         $scope.emotion = $scope.currChar.emotions.default;
         $scope.isTalking = 'finished';
         $scope.background = {
-            'background-image': 'url(../assets/backgrounds/startbg.png)'
+            'background-position': '-2217px -580px',
         };
         $scope.saveSelection = true;
         $scope.allowForward = false;
@@ -572,6 +627,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
     //This function is fired when the user does not load a save. It sets us at the start of the json file and prepares the game.
     $scope.newGame = function() {
+      sceneCounter = 0;
         $scope.saveSelection = false;
         $scope.inCase = true;
         open.play();
@@ -677,7 +733,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
     //The data factory fetches all our JSON files with ajax requests, and then our variables are set up.
     DataFactory.initialize().then(function() {
-      $scope.caseNum = DataFactory.getCaseNum();
+        $scope.caseNum = DataFactory.getCaseNum();
         $scope.saveMenu();
     });
 
