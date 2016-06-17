@@ -17,6 +17,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             $scope.displayLine = $scope.line.line;
             return;
         }
+
+        //Many different variables are checked to process the next line of text. Look at each function for more details.
         currIndex = $scope.lines.indexOf($scope.line) || 0;
         nextIndex = currIndex + 1;
         checkScene();
@@ -52,6 +54,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             $scope.displayLine = $scope.line.line;
             return;
         }
+
+        //Many different variables are checked to process the next screen. Check specific functions for more details.
         currIndex = $scope.lines.indexOf($scope.line) || 0;
         nextIndex = currIndex - 1;
         checkScene();
@@ -93,6 +97,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     //Checks to see if any SFX or manual over-ride blip noises need to be played.
     function checkSFX() {
         if ($scope.line.sfx) {
+
+          //Load the sound effect and optionally loop it
             var sfx = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.sfx);
             if ($scope.line.sfxloop) {
                 sfx.loop = true;
@@ -101,11 +107,17 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             }
             sfx.play();
         }
+
+        //Silence all blips
         if ($scope.line.blip == "none") {
             return;
+
+            //Play a custom blip
         } else if ($scope.line.blip) {
             blip = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.blip);
         } else {
+
+          //Use the default blip if nothing is specified
             blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
         }
     }
@@ -123,8 +135,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
     //Governs behaviour regarding what is displayed 'next' in the textbox, should a series of lines end.
     function checkScene() {
+
         //This checks to see if the user made an incorrect choice at a choice menu.
-        debugger;
         if (nextIndex == $scope.lines.length && $scope.incorrectChoice === true) {
             $scope.currScene = $scope.choiceScene;
             $scope.lines = $scope.currScene.lines;
@@ -171,7 +183,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         }
     }
 
-    //Checks to see if a choice must be made
+    //Checks to see if a choice must be made, and then redirects the user to the appropriate text depending on their choice
     function checkChoices() {
         if ($scope.line.choices) {
             $scope.choiceScene = $scope.currScene;
@@ -224,7 +236,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
         } else if ($scope.line.music) {
             if ($scope.music) {
-                $scope.music.pause();
+                $scope.music.stop();
             }
 
             $scope.music = ngAudio.load("../assets/audio/bgm/" + $scope.line.music + ".mp3");
@@ -426,6 +438,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
     //'Types' out text onto the DOM.
     $scope.typeText = function() {
+if($scope.allowTyping === false){
+  return;
+}
         if ($scope.displayLine.length < $scope.line.line.length) {
             var index = $scope.displayLine.length;
             blip.play();
@@ -572,6 +587,8 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         if ($scope.music) {
             $scope.music.pause();
         }
+        $scope.allowTyping = false;
+        $scope.showBox = false;
         $scope.inCase = false;
         $scope.scenes = DataFactory.sceneOrder();
         console.log($scope.scenes);
@@ -616,6 +633,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             emotion: $scope.emotion,
             evidenceBox: $scope.evidenceBox,
             evidenceBoxSrc: $scope.activesrc,
+            texttype: $scope.texttype,
             music: $scope.music,
             displayLine: $scope.displayLine,
             caseNum: $scope.caseNum
@@ -651,6 +669,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
         $scope.isTalking = 'talking';
         checkTypeTime();
         checkTextType();
+        $scope.allowTyping = true;
         $scope.typeText();
         checkArrows();
     };
@@ -686,10 +705,11 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
                 $scope.background = savefile.data.background;
                 checkBenches();
                 $scope.evidenceBox = savefile.data.evidenceBox;
+                $scope.texttype = savefile.data.texttype;
                 $scope.activesrc = savefile.data.evidenceBoxSrc;
                 $scope.hiddenEvidence = savefile.data.evidence;
                 $scope.evidencePlaceholder = savefile.data.evidencePlaceholder;
-
+$scope.allowTyping = true;
                 $scope.isTalking = 'talking';
                 checkTypeTime();
                 $scope.advanceText();
