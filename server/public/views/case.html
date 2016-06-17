@@ -1,16 +1,16 @@
 <div class="container">
     <div class="casebtncontainer" ng-show="inCase">
-        <button class="evidencebtn" id="openev" ng-click="openEvidence()">Evidence</button>
-        <button class="evidencebtn" ng-click="saveGame()" >Save</button>
-        <button class="evidencebtn" ng-click="loadGame()" >Load</button>
-        <button class="evidencebtn"  ng-click="toTitle()">Back To Title</button>
+        <button class="evidencebtn btn" id="openev" ng-click="openEvidence()">Evidence</button>
+        <button class="evidencebtn btn" ng-click="saveGame()" >Save</button>
+        <button class="evidencebtn btn" ng-click="loadGame()" >Load</button>
+        <button class="evidencebtn btn"  ng-click="toTitle()">Back To Title</button>
     </div>
 
     <div class="well well-lg gamecontainer" ng-style="background">
         <img class="evidence evidencedisplay" ng-src="{{activesrc}}" ng-show="evidenceBox" />
         <div class="evidencebox" ng-show="evidencePanel">
           <div class="closecontainer">
-            <button class="closebtn" ng-click="closeEvidence()">Close Evidence</button>
+            <button class="closebtn btn" ng-click="closeEvidence()">Close Evidence</button>
           </div>
           <div class="evidencearea" ng-repeat="item in evidence">
 
@@ -22,8 +22,8 @@
 
 
             <div class="btnwrapper">
-                <button class="evidencebtn evidenceboxbtn" id="check" ng-click="examineEvidence()">Check</button>
-                <button class="evidencebtn evidenceboxbtn" id="present" ng-click="presentEvidence(currEvidence)" ng-show="isExamination">Present</button>
+                <button class="btn evidencebtn evidenceboxbtn" id="check" ng-click="examineEvidence()">Check</button>
+                <button class="btn evidencebtn evidenceboxbtn" id="present" ng-click="presentEvidence(currEvidence)" ng-show="isExamination">Present</button>
             </div>
         </div>
         <div class="choicebox" ng-show="isChoice">
@@ -42,13 +42,13 @@
         </div>
 <div class="saveselect" ng-show = "saveSelection">
   <h3>Save Selection</h3>
-  <button class="choicebtn" ng-click="toTitle()">Back To Title Screen</button>
+  <button class="btn choicebtn" ng-click="toTitle()">Back To Title Screen</button>
   <img  class="loading" ng-show="loadingAnim" src="../assets/sprites/loading.svg" />
   <div class="saves" ng-repeat="save in savesArray">
-    <button class="choicebtn savebtn" ng-click="loadSave(save._id)">{{save.displayLine}}</button>
-    <button class="delete" ng-click="deleteSave(save._id)">Delete?</button>
+    <button class="btn choicebtn savebtn" ng-click="loadSave(save._id)">{{save.displayLine}}</button>
+    <button class="btn delete" ng-click="deleteSave(save._id)">Delete?</button>
   </div>
-  <button class="choicebtn" ng-click="newGame()">New Game</button>
+  <button class="btn choicebtn" ng-click="newGame()">New Game</button>
 </div>
         <img class="portrait" id="portrait" ng-src="../assets/sprites/{{emotion[isTalking]}}" ng-hide="evidencePanel" />
         <img class="overlay" ng-show="playAnimation" ng-src="{{animationsrc}}" />
