@@ -670,6 +670,7 @@
             "line": "Yeah, we went and arrested Java.",
             "correctevidence": "none",
             "character": "detective",
+            "hideBox": "true",
             "type": "examination",
             "denyBackward": "true",
             "presstext": {
@@ -692,7 +693,8 @@
             },
             "incorrectlines": {
                 "lines": [{
-                    "line": "What the heck is that?"
+                    "line": "What the heck is that?",
+                    "type": "default"
                 }, {
                     "line": "Try again.",
                     "emotion": "laughing"
@@ -702,6 +704,7 @@
             "line": "He was there the night of the murder. He admits it himself!",
             "character": "detective",
             "emotion": "proud",
+            "hideBox": "true",
             "type": "examination",
             "background": "witnessempty.png",
             "correctevidence": "none",
@@ -726,7 +729,8 @@
             },
             "incorrectlines": {
                 "lines": [{
-                    "line": "What the heck is that?"
+                    "line": "What the heck is that?",
+                    "type": "default"
                 }, {
                     "line": "Try again.",
                     "emotion": "laughing"
@@ -736,6 +740,7 @@
             "line": "The butler called us up and we got there immediately.",
             "correctevidence": "none",
             "emotion": "proud",
+            "hideBox": "true",
             "character": "detective",
             "type": "examination",
             "background": "witnessempty.png",
@@ -775,7 +780,8 @@
             },
             "incorrectlines": {
                 "lines": [{
-                    "line": "What the heck is that?"
+                    "line": "What the heck is that?",
+                    "type": "default"
                 }, {
                     "line": "Try again.",
                     "emotion": "laughing"
@@ -786,6 +792,7 @@
             "emotion": "mad",
             "correctevidence": "none",
             "character": "detective",
+            "hideBox": "true",
             "type": "examination",
             "background": "witnessempty.png",
             "presstext": {
@@ -891,7 +898,8 @@
             },
             "incorrectlines": {
                 "lines": [{
-                    "line": "What the heck is that?"
+                    "line": "What the heck is that?",
+                    "type": "default"
                 }, {
                     "line": "Try again.",
                     "emotion": "laughing"
@@ -944,7 +952,8 @@
             },
             "incorrectlines": {
                 "lines": [{
-                    "line": "What the heck is that?"
+                    "line": "What the heck is that?",
+                    "type": "default"
                 }, {
                     "line": "Try again.",
                     "emotion": "laughing"
