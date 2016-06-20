@@ -98,7 +98,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
     function checkSFX() {
         if ($scope.line.sfx) {
 
-          //Load the sound effect and optionally loop it
+            //Load the sound effect and optionally loop it
             var sfx = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.sfx);
             if ($scope.line.sfxloop) {
                 sfx.loop = true;
@@ -117,7 +117,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             blip = ngAudio.load("../assets/audio/sfx/sfx-" + $scope.line.blip);
         } else {
 
-          //Use the default blip if nothing is specified
+            //Use the default blip if nothing is specified
             blip = new Audio('../assets/audio/sfx/sfx-' + $scope.currChar.defaultSound + '.wav');
         }
     }
@@ -299,41 +299,41 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
                     };
                     break;
                 case 'courtroomHall.png':
-                $scope.background = {
-                    'background-position': '0px 0px',
-                    'name': $scope.line.background
-                };
-                    break;
-                    case 'startbg.png':
                     $scope.background = {
-                      'background-position': '-2217px -580px',
-                      'name': $scope.line.background
+                        'background-position': '0px 0px',
+                        'name': $scope.line.background
                     };
                     break;
-                    case 'helperstand.png':
+                case 'startbg.png':
                     $scope.background = {
-                      'background-position': '-2217px 0px',
-                      'name': $scope.line.background
+                        'background-position': '-2217px -580px',
+                        'name': $scope.line.background
                     };
                     break;
-                    case 'judgestand.png':
+                case 'helperstand.png':
                     $scope.background = {
-                      'background-position': '0px -580px',
-                      'name': $scope.line.background
+                        'background-position': '-2217px 0px',
+                        'name': $scope.line.background
+                    };
+                    break;
+                case 'judgestand.png':
+                    $scope.background = {
+                        'background-position': '0px -580px',
+                        'name': $scope.line.background
 
                     };
                     break;
-                    case 'courtroomoverview.png':
+                case 'courtroomoverview.png':
                     $scope.background = {
-                      'background-position': '-739px 0px',
-                      'name': $scope.line.background
+                        'background-position': '-739px 0px',
+                        'name': $scope.line.background
                     };
                     break;
-                    case 'courtroomanimated.gif':
+                case 'courtroomanimated.gif':
                     $scope.background = {
-                      'background-image': 'url(../assets/backgrounds/courtroomanimated.gif)',
-                      'background-size': 'contain',
-                      'name': $scope.line.background
+                        'background-image': 'url(../assets/backgrounds/courtroomanimated.gif)',
+                        'background-size': 'contain',
+                        'name': $scope.line.background
                     };
                     break;
             }
@@ -393,6 +393,7 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
             };
             $scope.allowPress = true;
             $scope.isExamination = true;
+            $scope.allowForward = true;
             if ($scope.lines.indexOf($scope.line) !== 0 || $scope.lines.indexOf($scope.line) != 1) {
                 $scope.allowBackward = true;
             }
@@ -438,9 +439,9 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
     //'Types' out text onto the DOM.
     $scope.typeText = function() {
-if($scope.allowTyping === false){
-  return;
-}
+        if ($scope.allowTyping === false) {
+            return;
+        }
         if ($scope.displayLine.length < $scope.line.line.length) {
             var index = $scope.displayLine.length;
             blip.play();
@@ -603,6 +604,7 @@ if($scope.allowTyping === false){
         $scope.saveSelection = true;
         $scope.allowForward = false;
         $scope.allowBackward = false;
+        $scope.allowPress = false;
         $scope.displayLine = '';
         $scope.charName = '';
         $scope.isProsecutor = false;
@@ -645,7 +647,7 @@ if($scope.allowTyping === false){
 
     //This function is fired when the user does not load a save. It sets us at the start of the json file and prepares the game.
     $scope.newGame = function() {
-      sceneCounter = 0;
+        sceneCounter = 0;
         $scope.saveSelection = false;
         $scope.inCase = true;
         open.play();
@@ -705,11 +707,12 @@ if($scope.allowTyping === false){
                 $scope.background = savefile.data.background;
                 checkBenches();
                 $scope.evidenceBox = savefile.data.evidenceBox;
-                $scope.texttype = savefile.data.texttype;
+                checkTextType();
                 $scope.activesrc = savefile.data.evidenceBoxSrc;
                 $scope.hiddenEvidence = savefile.data.evidence;
                 $scope.evidencePlaceholder = savefile.data.evidencePlaceholder;
-$scope.allowTyping = true;
+                checkPress();
+                $scope.allowTyping = true;
                 $scope.isTalking = 'talking';
                 checkTypeTime();
                 $scope.advanceText();
