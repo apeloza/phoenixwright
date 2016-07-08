@@ -27,9 +27,5 @@ At the end of the case, users are given a short scene congratulating them (as a 
 
 
 #Technologies
-Node
-Express
-jQuery
-Heroku
-MongoDB
+Node, Express, jQuery, Heroku, MongoDB
 
