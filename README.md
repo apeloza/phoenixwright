@@ -1,6 +1,7 @@
 #Perl Pascal: Ace Attorney
 ##Anthony Peloza
 ###06-03-2016  | Version 1.0
+URL: https://enigmatic-beach-25371.herokuapp.com/#/title (Note: Runs much faster locally by downloading the repo).
 
 #Application Overview
 PP:AA is a re-creation of the Phoenix Wright game engine (from the Nintendo DS) in Javascript. It is a game with a focus on story and defending your client in the role of a lawyer.  Players will progress through hearing testimony and then pressing witnesses or presenting evidence.
