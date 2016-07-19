@@ -28,5 +28,5 @@ At the end of the case, users are given a short scene congratulating them (as a 
 
 
 #Technologies
-Node, Express, AngularJS, Heroku, MongoDB
+Node, Express, AngularJS, Heroku, MongoDB, MLab
 
