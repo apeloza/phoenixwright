@@ -135,7 +135,6 @@ app.controller('GameController', ['$scope', '$http', '$timeout', '$location', 'n
 
     //Governs behaviour regarding what is displayed 'next' in the textbox, should a series of lines end.
     function checkScene() {
-
         //This checks to see if the user made an incorrect choice at a choice menu.
         if (nextIndex == $scope.lines.length && $scope.incorrectChoice === true) {
             $scope.currScene = $scope.choiceScene;
